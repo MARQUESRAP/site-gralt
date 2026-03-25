@@ -32,7 +32,7 @@ export default function Header() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <Image src="/logo.png" alt="Gralt" width={240} height={72} className="h-14 w-auto -my-1" />
+          <Image src="/logo.webp" alt="Gralt" width={240} height={72} className="h-14 w-auto -my-1" />
         </Link>
 
         {/* Desktop Nav */}

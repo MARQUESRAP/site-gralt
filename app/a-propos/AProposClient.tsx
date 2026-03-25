@@ -96,7 +96,7 @@ export default function AProposClient() {
                 }}
               >
                 <Image
-                  src="/raph.jpeg"
+                  src="/raph.webp"
                   alt="Raphaël, fondateur de Gralt"
                   fill
                   className="object-cover"

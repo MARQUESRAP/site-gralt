@@ -8,12 +8,12 @@ import ScrollReveal from '@/components/ui/ScrollReveal'
 import ShimmerEffect from '@/components/ui/ShimmerEffect'
 
 const teamAgents = [
-  { name: 'Zeus', image: '/agents/zeus.png', offset: 'translate-y-2' },
-  { name: 'Apollo', image: '/agents/apollo.png', offset: '-translate-y-1' },
-  { name: 'Isis', image: '/agents/isis.png', offset: 'translate-y-3' },
-  { name: 'Attila', image: '/agents/attila.png', offset: '-translate-y-2' },
-  { name: 'Odin', image: '/agents/odin.png', offset: 'translate-y-1' },
-  { name: 'Atlas', image: '/agents/atlas.png', offset: '-translate-y-1' },
+  { name: 'Zeus', image: '/agents/zeus.webp', offset: 'translate-y-2' },
+  { name: 'Apollo', image: '/agents/apollo.webp', offset: '-translate-y-1' },
+  { name: 'Isis', image: '/agents/isis.webp', offset: 'translate-y-3' },
+  { name: 'Attila', image: '/agents/attila.webp', offset: '-translate-y-2' },
+  { name: 'Odin', image: '/agents/odin.webp', offset: 'translate-y-1' },
+  { name: 'Atlas', image: '/agents/atlas.webp', offset: '-translate-y-1' },
 ]
 
 export default function FinalCTA() {

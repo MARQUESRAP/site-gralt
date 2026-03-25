@@ -15,7 +15,7 @@ export default function HeroSection() {
         {/* Background image — full bleed */}
         <div className="pointer-events-none absolute inset-0 z-0">
           <Image
-            src="/hero-bg.png"
+            src="/hero-bg.webp"
             alt=""
             fill
             className="object-cover"

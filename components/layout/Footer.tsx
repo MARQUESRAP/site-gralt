@@ -18,7 +18,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/">
-              <Image src="/logo.png" alt="Gralt" width={120} height={40} className="h-9 w-auto" />
+              <Image src="/logo.webp" alt="Gralt" width={120} height={40} className="h-9 w-auto" />
             </Link>
             <p className="mt-3 text-sm text-text-secondary">
               Agents IA sur mesure pour les entreprises en croissance.

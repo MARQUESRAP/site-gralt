@@ -222,7 +222,7 @@ export default function ChatInterface({
             boxShadow: '0 0 12px rgba(0, 229, 204, 0.3)',
           }}
         >
-          <Image src="/agents/aria.png" alt="Aria" fill className="object-cover" sizes="48px" />
+          <Image src="/agents/aria.webp" alt="Aria" fill className="object-cover" sizes="48px" />
         </div>
         <div>
           <p className="text-sm font-medium text-text-primary">Aria — Concierge IA</p>

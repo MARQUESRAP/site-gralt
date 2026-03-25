@@ -13,7 +13,7 @@ export default function HomePage() {
     slug: s.slug,
     color: s.color_primary,
     description: s.description,
-    sceneImage: `/sections/${s.slug}.png`,
+    sceneImage: `/sections/${s.slug}.webp`,
   }))
   const caseStudies = getDetailedCaseStudies()
 

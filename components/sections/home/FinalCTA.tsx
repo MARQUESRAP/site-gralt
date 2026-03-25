@@ -27,7 +27,7 @@ export default function FinalCTA() {
           </NeonText>
 
           {/* Team illustration — 6 golden agents with photos */}
-          <div className="relative mx-auto mb-10 flex max-w-[650px] flex-wrap items-end justify-center gap-3 rounded-2xl px-4 py-6 sm:gap-4 sm:py-8 md:flex-nowrap md:gap-6"
+          <div className="relative mx-auto mb-10 grid max-w-[650px] grid-cols-3 gap-4 rounded-2xl px-6 py-6 sm:gap-5 sm:py-8 md:grid-cols-6 md:gap-6"
             style={{
               background: 'rgba(245, 200, 66, 0.05)',
               border: '1px solid rgba(245, 200, 66, 0.15)',
@@ -35,9 +35,9 @@ export default function FinalCTA() {
           >
             <ShimmerEffect />
             {teamAgents.map((agent) => (
-              <div key={agent.name} className={`relative z-10 flex flex-col items-center gap-1.5 sm:gap-2 ${agent.offset}`}>
+              <div key={agent.name} className={`relative z-10 flex flex-col items-center gap-1.5 sm:gap-2 md:${agent.offset}`}>
                 <div
-                  className="relative h-12 w-12 overflow-hidden rounded-full sm:h-16 sm:w-16 md:h-20 md:w-20"
+                  className="relative h-14 w-14 overflow-hidden rounded-full sm:h-16 sm:w-16 md:h-20 md:w-20"
                   style={{
                     border: '2px solid #F5C842',
                     boxShadow: '0 0 15px rgba(245, 200, 66, 0.3), 0 0 30px rgba(245, 200, 66, 0.1)',

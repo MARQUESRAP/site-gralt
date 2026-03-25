@@ -89,7 +89,7 @@ export default function AProposClient() {
             {/* Photo Raph */}
             <ScrollReveal className="w-full flex-shrink-0 md:w-auto">
               <div
-                className="relative mx-auto h-[400px] w-[300px] overflow-hidden rounded-2xl"
+                className="relative mx-auto h-[280px] w-[210px] overflow-hidden rounded-2xl sm:h-[350px] sm:w-[260px] md:h-[400px] md:w-[300px]"
                 style={{
                   border: '1px solid rgba(0, 229, 204, 0.2)',
                   boxShadow: '0 8px 40px rgba(0,0,0,0.4), 0 0 40px rgba(0,229,204,0.05)',

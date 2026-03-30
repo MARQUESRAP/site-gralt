@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Politique de confidentialité — Gralt',
+  title: 'Politique de confidentialité',
+  description: 'Politique de confidentialité de Gralt — données collectées, droits RGPD, stockage et sécurité.',
+  alternates: { canonical: 'https://gralt.fr/politique-de-confidentialite' },
 }
 
 export default function PolitiqueConfidentialite() {

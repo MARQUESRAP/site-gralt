@@ -34,9 +34,17 @@ export function generateMetadata({
     const agent = getAgentBySlug(p['agent-slug'])
     if (!agent) return { title: 'Agent introuvable' }
     const section = getSectionBySlug(p['section-slug'])
+    // Truncate description to 155 chars max, append "Agent IA Gralt." suffix
+    const raw = agent.accroche
+    const suffix = ' Agent IA Gralt.'
+    const maxLen = 155 - suffix.length
+    const desc = raw.length > maxLen
+      ? raw.slice(0, maxLen).replace(/[,.\s]+$/, '') + '…' + suffix
+      : raw + suffix
     return {
-      title: `${agent.name} — ${section?.name || ''} — Gralt`,
-      description: agent.accroche,
+      title: `${agent.name} — ${agent.accroche}`,
+      description: desc.slice(0, 155),
+      alternates: { canonical: `https://gralt.fr/agents/${p['section-slug']}/${p['agent-slug']}` },
     }
   })
 }

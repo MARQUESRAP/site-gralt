@@ -14,20 +14,27 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://gralt.fr'),
   title: {
-    default: 'Gralt — Agents IA pour entreprises en croissance',
-    template: '%s — Gralt',
+    default: 'Gralt — 31 agents IA au service de votre entreprise',
+    template: '%s | Gralt',
   },
   description:
-    'Marketplace d\'agents IA personnalisés pour entreprises en croissance. Prospection, marketing, support, RH, admin, pilotage — 31 agents prêts à transformer votre entreprise.',
-  metadataBase: new URL('https://gralt.fr'),
+    'Découvrez 31 agents IA spécialisés en prospection, marketing, support client, recrutement, admin et pilotage. Des agents sur mesure qui travaillent pour votre entreprise 24h/24.',
   openGraph: {
-    title: 'Gralt — Agents IA pour entreprises en croissance',
+    title: 'Gralt — 31 agents IA au service de votre entreprise',
     description:
-      'Des agents IA sur mesure qui travaillent pour votre entreprise 24h/24.',
+      'Découvrez 31 agents IA spécialisés en prospection, marketing, support client, recrutement, admin et pilotage.',
+    url: 'https://gralt.fr',
     siteName: 'Gralt',
     locale: 'fr_FR',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Gralt — 31 agents IA au service de votre entreprise',
+    description:
+      'Découvrez 31 agents IA spécialisés en prospection, marketing, support client, recrutement, admin et pilotage.',
   },
   robots: {
     index: true,
@@ -38,7 +45,7 @@ export const metadata: Metadata = {
   },
 }
 
-// JSON-LD structured data
+// JSON-LD structured data (global)
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -47,32 +54,30 @@ const jsonLd = {
       '@id': 'https://gralt.fr/#organization',
       name: 'Gralt',
       url: 'https://gralt.fr',
-      description: 'Agence d\'automatisation IA pour entreprises en croissance',
-      foundingDate: '2025',
-      founder: {
-        '@type': 'Person',
-        name: 'Raphaël Marques',
-      },
-    },
-    {
-      '@type': 'LocalBusiness',
-      '@id': 'https://gralt.fr/#localbusiness',
-      name: 'Gralt',
-      url: 'https://gralt.fr',
+      logo: 'https://gralt.fr/logo.png',
+      description: 'Agents IA sur mesure pour les entreprises en croissance',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Lille',
         addressRegion: 'Hauts-de-France',
         addressCountry: 'FR',
       },
-      priceRange: '€€',
+      sameAs: ['https://www.linkedin.com/company/gralt'],
     },
     {
-      '@type': 'WebSite',
-      '@id': 'https://gralt.fr/#website',
-      url: 'https://gralt.fr',
+      '@type': 'LocalBusiness',
+      '@id': 'https://gralt.fr/#localbusiness',
       name: 'Gralt',
-      publisher: { '@id': 'https://gralt.fr/#organization' },
+      url: 'https://gralt.fr',
+      description: 'Agents IA sur mesure pour les entreprises en croissance',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Lille',
+        addressRegion: 'Hauts-de-France',
+        addressCountry: 'FR',
+      },
+      areaServed: 'France',
+      priceRange: '€€',
     },
   ],
 }

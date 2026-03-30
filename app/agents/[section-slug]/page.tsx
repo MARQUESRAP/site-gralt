@@ -20,8 +20,9 @@ export function generateMetadata({ params }: { params: Promise<{ 'section-slug':
     const section = getSectionBySlug(p['section-slug'])
     if (!section) return { title: 'Section introuvable' }
     return {
-      title: `${section.name} — Gralt`,
+      title: `Agents ${section.name}`,
       description: section.description,
+      alternates: { canonical: `https://gralt.fr/agents/${p['section-slug']}` },
     }
   })
 }

@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import AProposClient from './AProposClient'
 
 export const metadata: Metadata = {
-  title: 'À propos — Gralt',
+  title: 'À propos',
   description:
-    'Raphaël, fondateur de Gralt : parcours, convictions et équipe de 31 agents IA pour entreprises en croissance. L\'IA libère, elle ne remplace pas.',
+    'Gralt, cabinet IA et automatisation basé à Lille. Des agents IA pour les entreprises en croissance.',
+  alternates: { canonical: 'https://gralt.fr/a-propos' },
 }
 
 export default function AProposPage() {

@@ -16,8 +16,9 @@ export function generateMetadata({ params }: { params: Promise<{ slug: string }>
     const cs = getCaseStudyBySlug(p.slug)
     if (!cs || cs.type !== 'detailed') return { title: 'Projet introuvable' }
     return {
-      title: `${cs.title} — Gralt`,
-      description: cs.context,
+      title: cs.title,
+      description: cs.context?.slice(0, 155),
+      alternates: { canonical: `https://gralt.fr/travaux/${p.slug}` },
     }
   })
 }

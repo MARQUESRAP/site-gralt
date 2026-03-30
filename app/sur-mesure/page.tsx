@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import SurMesureClient from './SurMesureClient'
 
 export const metadata: Metadata = {
-  title: 'Sur-Mesure — Gralt',
+  title: 'Sur-Mesure',
   description:
-    'Décrivez votre besoin à mon assistant IA. Il vous orientera vers les bons agents ou proposera une solution sur-mesure.',
+    'Un besoin spécifique ? Notre concierge IA vous aide à trouver la solution adaptée.',
+  alternates: { canonical: 'https://gralt.fr/sur-mesure' },
 }
 
 export default function SurMesurePage() {

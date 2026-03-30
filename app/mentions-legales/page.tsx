@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Mentions légales — Gralt',
+  title: 'Mentions légales',
+  description: 'Mentions légales du site gralt.fr — éditeur, hébergement, propriété intellectuelle, données personnelles.',
+  alternates: { canonical: 'https://gralt.fr/mentions-legales' },
 }
 
 export default function MentionsLegales() {

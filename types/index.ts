@@ -22,10 +22,9 @@ export interface Agent {
   accroche: string
   description_steps: AgentStep[]
   resultats: AgentResultats
-  prix_setup_min: number
-  prix_setup_max: number
-  prix_mensuel_min: number
-  prix_mensuel_max: number
+  prix_setup: number
+  prix_mensuel: number
+  abonnement_details?: AbonnementDetail[]
   delai: string
   roi: string
   is_golden: boolean
@@ -35,6 +34,11 @@ export interface Agent {
   agents_complementaires: string[]
   // Joined
   section?: Section
+}
+
+export interface AbonnementDetail {
+  label: string
+  amount: number
 }
 
 export interface AgentStep {

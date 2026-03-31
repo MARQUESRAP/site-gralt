@@ -32,6 +32,7 @@ export default function AgentPageClient({
 }: Props) {
   const { setActiveColor } = useSectionColor()
   const [chatOpen, setChatOpen] = useState(false)
+  const [detailsOpen, setDetailsOpen] = useState(false)
   const color = agent.is_golden ? '#F5C842' : agent.color
 
   useEffect(() => {
@@ -145,6 +146,49 @@ export default function AgentPageClient({
           </div>
         </ScrollReveal>
 
+        {/* ═══ BLOC 2b — Sur-mesure ═══ */}
+        <ScrollReveal>
+          <div className="mb-16">
+            <GlassCard color={color} className="relative overflow-hidden p-8">
+              <div
+                className="absolute inset-0 opacity-[0.03]"
+                style={{
+                  background: `radial-gradient(circle at 20% 50%, ${color}, transparent 70%)`,
+                }}
+              />
+              <div className="relative z-10">
+                <div className="mb-4 flex items-center gap-3">
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+                    style={{
+                      background: `${color}1A`,
+                      border: `1px solid ${color}4D`,
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                      <path d="M2 17l10 5 10-5" />
+                      <path d="M2 12l10 5 10-5" />
+                    </svg>
+                  </div>
+                  <NeonText as="h3" size="sm" color={color}>
+                    Un agent conçu sur mesure pour votre entreprise
+                  </NeonText>
+                </div>
+                <p className="mb-3 text-sm leading-relaxed text-text-secondary">
+                  {agent.name} n&apos;est pas un outil prêt-à-l&apos;emploi qu&apos;on branche et qu&apos;on oublie. Avant toute mise en place, je construis
+                  une <span className="font-semibold text-text-primary">stratégie complète adaptée à votre entreprise, votre marché et votre cible</span>.
+                </p>
+                <p className="text-sm leading-relaxed text-text-secondary">
+                  Chaque système est unique : les sources de données, les critères de qualification, les messages, les séquences,
+                  les outils connectés — tout est pensé et configuré spécifiquement pour maximiser vos résultats.
+                  <span className="font-semibold text-text-primary"> Pas de copier-coller, pas de template générique.</span>
+                </p>
+              </div>
+            </GlassCard>
+          </div>
+        </ScrollReveal>
+
         {/* ═══ BLOC 3 — Résultats estimés ═══ */}
         <ScrollReveal>
           <div className="mb-16">
@@ -203,16 +247,49 @@ export default function AgentPageClient({
                     Mise en place
                   </p>
                   <p className="text-xl font-bold text-text-primary">
-                    {agent.prix_setup_min.toLocaleString('fr-FR')}€ — {agent.prix_setup_max.toLocaleString('fr-FR')}€
+                    {agent.prix_setup.toLocaleString('fr-FR')}€
                   </p>
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">
-                    Abonnement mensuel
+                    Frais d&apos;abonnements mensuels
                   </p>
                   <p className="text-xl font-bold text-text-primary">
-                    {agent.prix_mensuel_min}€ — {agent.prix_mensuel_max}€/mois
+                    {agent.prix_mensuel}€/mois
                   </p>
+                  <p className="mt-1 text-xs text-text-secondary">
+                    Abonnements nécessaires au fonctionnement du système
+                  </p>
+                  {agent.abonnement_details && agent.abonnement_details.length > 0 && (
+                    <div className="mt-3">
+                      <button
+                        onClick={() => setDetailsOpen(!detailsOpen)}
+                        className="flex items-center gap-1 text-xs font-medium transition-colors"
+                        style={{ color }}
+                      >
+                        <svg
+                          className={`h-3 w-3 transition-transform ${detailsOpen ? 'rotate-90' : ''}`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                        Voir le détail
+                      </button>
+                      {detailsOpen && (
+                        <ul className="mt-2 flex flex-col gap-1.5">
+                          {agent.abonnement_details.map((detail, i) => (
+                            <li key={i} className="flex items-center justify-between text-xs text-text-secondary">
+                              <span>{detail.label}</span>
+                              <span className="font-medium text-text-primary">{detail.amount}€</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">

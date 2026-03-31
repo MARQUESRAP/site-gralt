@@ -73,10 +73,8 @@ export default function SelectionPageClient() {
   }
 
   // ─── Calculations ───
-  const totalSetupMin = fullAgents.reduce((s, a) => s + a.prix_setup_min, 0)
-  const totalSetupMax = fullAgents.reduce((s, a) => s + a.prix_setup_max, 0)
-  const totalMonthlyMin = fullAgents.reduce((s, a) => s + a.prix_mensuel_min, 0)
-  const totalMonthlyMax = fullAgents.reduce((s, a) => s + a.prix_mensuel_max, 0)
+  const totalSetup = fullAgents.reduce((s, a) => s + a.prix_setup, 0)
+  const totalMonthly = fullAgents.reduce((s, a) => s + a.prix_mensuel, 0)
 
   const totalWeeklyHours = fullAgents.reduce(
     (s, a) => s + parseHoursPerWeek(a.resultats.heures_liberees),
@@ -95,12 +93,11 @@ export default function SelectionPageClient() {
   const maxRoiWeeks = Math.max(...fullAgents.map((a) => parseMaxWeeks(a.roi)))
 
   // Annual cost of agents
-  const annualAgentCostMin = totalSetupMin + totalMonthlyMin * 12
-  const annualAgentCostMax = totalSetupMax + totalMonthlyMax * 12
+  const annualAgentCost = totalSetup + totalMonthly * 12
 
   // Bar chart widths (salary is always wider to show the gap)
-  const maxCost = Math.max(salaryMax, annualAgentCostMax)
-  const agentBarPercent = maxCost > 0 ? (annualAgentCostMax / maxCost) * 100 : 50
+  const maxCost = Math.max(salaryMax, annualAgentCost)
+  const agentBarPercent = maxCost > 0 ? (annualAgentCost / maxCost) * 100 : 50
   const salaryBarPercent = maxCost > 0 ? (salaryMax / maxCost) * 100 : 100
 
   return (
@@ -156,9 +153,9 @@ export default function SelectionPageClient() {
                       {agent.accroche}
                     </p>
                     <p className="mt-1 text-xs text-text-secondary">
-                      Mise en place : {agent.prix_setup_min.toLocaleString('fr-FR')}€ — {agent.prix_setup_max.toLocaleString('fr-FR')}€
+                      Mise en place : {agent.prix_setup.toLocaleString('fr-FR')}€
                       {' · '}
-                      {agent.prix_mensuel_min}€ — {agent.prix_mensuel_max}€/mois
+                      {agent.prix_mensuel}€/mois
                     </p>
                   </div>
                   <button
@@ -202,15 +199,15 @@ export default function SelectionPageClient() {
                   Mise en place (une fois)
                 </p>
                 <p className="text-2xl font-bold text-text-primary">
-                  {totalSetupMin.toLocaleString('fr-FR')}€ — {totalSetupMax.toLocaleString('fr-FR')}€
+                  {totalSetup.toLocaleString('fr-FR')}€
                 </p>
               </GlassCard>
               <GlassCard color="#00E5CC" className="p-6">
                 <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">
-                  Abonnement mensuel
+                  Frais d&apos;abonnements mensuels
                 </p>
                 <p className="text-2xl font-bold text-text-primary">
-                  {totalMonthlyMin.toLocaleString('fr-FR')}€ — {totalMonthlyMax.toLocaleString('fr-FR')}€/mois
+                  {totalMonthly.toLocaleString('fr-FR')}€/mois
                 </p>
               </GlassCard>
             </div>
@@ -241,7 +238,7 @@ export default function SelectionPageClient() {
                       viewport={{ once: true }}
                       transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
                     >
-                      {annualAgentCostMin.toLocaleString('fr-FR')}€ — {annualAgentCostMax.toLocaleString('fr-FR')}€
+                      {annualAgentCost.toLocaleString('fr-FR')}€
                     </motion.div>
                   </div>
                 </div>

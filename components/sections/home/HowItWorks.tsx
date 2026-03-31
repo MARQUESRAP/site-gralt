@@ -31,7 +31,7 @@ const steps = [
   {
     num: 2,
     title: 'Réservez un audit gratuit',
-    desc: 'On discute de votre business et des agents qui vous conviennent.',
+    desc: 'On analyse ensemble votre entreprise, votre marché et votre cible pour définir la stratégie la plus adaptée.',
     icon: (
       <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="10" y="14" width="52" height="38" rx="6" stroke="#00E5CC" strokeWidth="2.5" opacity="0.9" />
@@ -45,8 +45,8 @@ const steps = [
   },
   {
     num: 3,
-    title: 'Je construis votre agent',
-    desc: 'En 2 à 5 semaines, votre agent est configuré, testé, opérationnel.',
+    title: 'Je construis votre agent sur mesure',
+    desc: 'Chaque agent est unique : stratégie, sources, messages, séquences — tout est conçu spécifiquement pour votre entreprise. Pas de template, pas de copier-coller.',
     icon: (
       <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="26" cy="30" r="12" stroke="#00E5CC" strokeWidth="2.5" opacity="0.9" />

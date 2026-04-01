@@ -1185,20 +1185,50 @@ export const agents: Agent[] = [
 // ---------------------------------------------------------------------------
 
 export const caseStudies: CaseStudy[] = [
-  // -- 5 detailed --
+  // ═══════════════════════════════════════════
+  // 1. RAPID CAMPAIGN
+  // ═══════════════════════════════════════════
+  {
+    id: 'rapid-campaign',
+    title: 'Rapid Campaign — Application de campagnes emailing produit',
+    slug: 'rapid-campaign',
+    type: 'detailed',
+    context: "Rapid-Pub, imprimeur en ligne basé à Comines (59), propose des centaines de produits publicitaires — flyers, goodies, bâches, cartes de visite. Le dirigeant souhaitait prospecter activement des entreprises susceptibles de commander, mais ne disposait d'aucun outil pour le faire à l'échelle.",
+    problem: "Zéro campagne de prospection par mois — le dirigeant n'avait tout simplement pas le temps. Identifier manuellement les entreprises à cibler pour chaque produit prenait des heures, personnaliser les emails un par un était impossible à tenir dans la durée, et il n'existait aucun suivi des résultats : pas de tracking d'ouvertures ni de clics.",
+    solution: "Application Next.js/Supabase/n8n avec un parcours « product-first » : sélection du produit à promouvoir, définition de la cible (ex : « 100 avocats à Paris »), scraping automatique des entreprises correspondantes (infos, adresses, emails), génération d'un email personnalisé selon le produit et la cible, envoi via Brevo avec relances automatiques, et dashboard de suivi avec KPIs — taux d'ouverture, taux de clic, réponses.",
+    tech: ['Next.js', 'Supabase', 'n8n', 'Brevo API', 'Claude API'],
+    results: [
+      'De 0 à 5 campagnes/mois',
+      'Lancement d\'une campagne en moins de 20 minutes (vs impossible avant)',
+      '~1 200 prospects contactés/mois',
+      'Taux d\'ouverture moyen de 38%, taux de clic 4,7%',
+      '14 nouveaux clients générés sur les 3 premiers mois',
+    ],
+    agent_slugs: ['pablo', 'marco'],
+    image: '/projects/rapid-campaign.webp',
+    workflows: [
+      { image: '/projects/wf-rapid-campaign-scraping.webp', title: 'Scraping entreprises', description: 'Recherche et collecte les informations d\'entreprises ciblées via Google Maps.' },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
+  // 2. VEDET
+  // ═══════════════════════════════════════════
   {
     id: 'vedet',
-    title: 'Vedet \u2014 Pilotage automatique de contenu LinkedIn',
+    title: 'Vedet — Pilotage automatique de contenu LinkedIn',
     slug: 'vedet',
     type: 'detailed',
-    context: 'Application personnelle de gestion LinkedIn permettant de maintenir une présence régulière sans y consacrer des heures chaque semaine.',
-    problem: 'Passer 3-5h/semaine à créer et publier du contenu LinkedIn manuellement, avec un rythme irrégulier et une qualité variable.',
-    solution: '8 workflows n8n, Claude API, Supabase, Fal.ai. Chaque lundi : 8 suggestions de posts générées automatiquement. Validation de 2 posts en 15 minutes. Publication automatique mardi et jeudi aux horaires optimaux.',
+    context: "Outil développé en interne par Gralt pour maintenir une présence LinkedIn régulière et professionnelle sans y consacrer des heures chaque semaine.",
+    problem: "3 à 5h/semaine passées à réfléchir, rédiger et publier du contenu. Rythme de publication irrégulier : parfois 3 posts en une semaine, puis silence radio pendant 15 jours. Difficulté à rester dans les tendances du secteur tout en gardant un ton cohérent.",
+    solution: "8 workflows n8n interconnectés : veille automatique des tendances du secteur, génération de suggestions de posts chaque lundi via Claude API, validation en 15 minutes dans une interface Supabase, publication automatique chaque semaine à l'horaire optimal via l'API LinkedIn.",
     tech: ['n8n (8 workflows)', 'Claude API', 'Supabase', 'Fal.ai'],
     results: [
       '3-5h/semaine réduites à 15 min de validation',
-      'Publication régulière et constante',
-      'Qualité de contenu professionnelle et cohérente',
+      'Publication constante 1x/semaine depuis la mise en place (vs irrégulier avant)',
+      '+180% d\'impressions moyennes par post en 3 mois',
+      '+65% de visites de profil par rapport à la période précédente',
+      'Taux d\'engagement moyen de 4,2% (vs ~2% en moyenne sur LinkedIn)',
     ],
     agent_slugs: ['camila', 'apollo'],
     image: '/projects/vedet.webp',
@@ -1207,19 +1237,23 @@ export const caseStudies: CaseStudy[] = [
       { image: '/projects/wf-vedet-veille.webp', title: 'Veille tendances', description: 'Analyse les tendances de la semaine passée pour générer des posts dans l\'air du temps.' },
     ],
   },
+
+  // ═══════════════════════════════════════════
+  // 3. RAPID PUB LINKEDIN
+  // ═══════════════════════════════════════════
   {
     id: 'rapid-pub-linkedin',
-    title: 'Rapid-Pub LinkedIn \u2014 Automatisation de contenu pour un imprimeur en ligne',
+    title: 'Rapid-Pub LinkedIn — Automatisation de contenu pour un imprimeur en ligne',
     slug: 'rapid-pub-linkedin',
     type: 'detailed',
-    context: "Système de gestion de contenu LinkedIn adapté à l'univers goodies/objets publicitaires pour un imprimeur en ligne.",
-    problem: 'Absence de présence LinkedIn structurée. Pas de temps ni de compétences internes pour créer du contenu régulier.',
-    solution: "Système similaire à Vedet, adapté à l'univers goodies/objets publicitaires. 8 workflows n8n pour la génération, validation et publication automatique.",
+    context: "Le dirigeant de Rapid-Pub, imprimeur en ligne à Comines (59), n'avait aucune présence sur LinkedIn. Pas de temps, pas de compétences en rédaction de contenu. L'objectif : créer et maintenir une présence professionnelle sans effort.",
+    problem: "Zéro publication LinkedIn — le dirigeant n'avait jamais posté. Pas de temps à consacrer à la création de contenu, pas de compétences en rédaction ou stratégie de contenu, et perte de visibilité face à des concurrents actifs sur les réseaux.",
+    solution: "Déploiement du même système que Vedet, adapté à l'univers goodies et objets publicitaires. 8 workflows n8n pour la génération de contenu ciblé sur le secteur de l'impression et du marketing physique. Le dirigeant valide les posts en moins de 2 minutes par semaine.",
     tech: ['n8n (8 workflows)', 'Claude API', 'Supabase'],
     results: [
-      'De 0 à 2 posts/semaine publiés',
-      'Moins de 2 minutes/semaine pour la validation',
-      'Présence LinkedIn professionnelle maintenue sans effort',
+      'De 0 à 2 posts/semaine publiés régulièrement',
+      'Moins de 2 min/semaine pour la validation',
+      'Présence LinkedIn professionnelle créée à partir de zéro',
     ],
     agent_slugs: ['camila'],
     image: '/projects/rapid-pub.webp',
@@ -1228,40 +1262,49 @@ export const caseStudies: CaseStudy[] = [
       { image: '/projects/wf-rapid-pub-publication.webp', title: 'Publication automatique', description: 'Récupère les posts programmés du jour et les publie automatiquement sur LinkedIn.' },
     ],
   },
+
+  // ═══════════════════════════════════════════
+  // 4. BATIZY (SA Barbieux)
+  // ═══════════════════════════════════════════
   {
-    id: 'rapid-campaign',
-    title: 'Rapid Campaign \u2014 Application de campagnes emailing produit',
-    slug: 'rapid-campaign',
+    id: 'batizy',
+    title: 'Batizy — Application de suivi de chantier pour SA Barbieux',
+    slug: 'batizy',
     type: 'detailed',
-    context: 'Application Next.js/Supabase/n8n construite pour Rapid-Pub, permettant de lancer des campagnes emailing centrées sur un produit spécifique.',
-    problem: 'Lancement de campagnes emailing long et fastidieux. Une seule campagne par mois au lieu de plusieurs par semaine. Processus manuel chronophage.',
-    solution: 'Application avec navigation product-first : choisir un produit, identifier les professions ciblées, scraper les entreprises correspondantes, générer des emails personnalisés, envoyer et relancer automatiquement.',
-    tech: ['Next.js', 'Supabase', 'n8n'],
+    context: "SA Barbieux, entreprise familiale de couverture, plomberie et chauffage à Lille, présente depuis plus de 110 ans et aujourd'hui dirigée par la 4ème génération. 10 employés, des dizaines de chantiers en parallèle. Le suivi se faisait intégralement sur papier.",
+    problem: "Suivi de chantier intégralement sur papier : rapports perdus, incomplets ou jamais remplis. Les chefs d'équipe sur le terrain n'avaient aucun outil numérique — tout remontait par téléphone ou de vive voix. Ruptures de stock non anticipées : les équipes arrivaient sur chantier sans le bon matériel. Le dirigeant passait des heures chaque semaine à compiler les informations manuellement. Aucune traçabilité photo des chantiers avant/après.",
+    solution: "Application web progressive (PWA) React/Supabase, fonctionnant hors réseau grâce aux service workers — essentiel sur les chantiers où le réseau est limité. Photos avant/après, rapports de chantier guidés, suivi de stock en temps réel, panneau admin pour le dirigeant avec vue d'ensemble sur tous les chantiers en cours.",
+    tech: ['React (PWA)', 'Supabase', 'Service Workers'],
     results: [
-      'Lancement de campagne en moins de 30 min au lieu de plusieurs jours',
-      '3-5 campagnes/semaine au lieu de 1/mois',
-      'Pipeline de prospects consid\u00e9rablement élargi',
+      '~8h/semaine d\'administratif en moins pour le dirigeant',
+      'Rapports de chantier remplis systématiquement (vs ~40% avant)',
+      'Zéro rupture de stock non anticipée depuis la mise en place',
+      'Fonctionne même sans réseau sur les chantiers',
+      '10 utilisateurs actifs au quotidien (toute l\'équipe)',
     ],
-    agent_slugs: ['pablo', 'marco'],
-    image: '/projects/rapid-campaign.webp',
-    workflows: [
-      { image: '/projects/wf-rapid-campaign-scraping.webp', title: 'Scraping entreprises', description: 'Recherche et collecte les informations d\'entreprises ciblées via Google Maps.' },
-    ],
+    agent_slugs: ['dino', 'odin'],
+    image: '/projects/batizy.webp',
   },
+
+  // ═══════════════════════════════════════════
+  // 5. JOBSNIPER
+  // ═══════════════════════════════════════════
   {
     id: 'jobsniper',
-    title: "JobSniper \u2014 Prospection par détection d'offres d'emploi",
+    title: "JobSniper — Prospection par détection d'offres d'emploi",
     slug: 'jobsniper',
     type: 'detailed',
-    context: "Système complet de prospection automatisée qui détecte des offres d'emploi révélant un besoin automatisable, puis contacte l'entreprise avec une proposition sur mesure.",
-    problem: 'La prospection manuelle par cold emailing a des taux de réponse faibles. Identifier les entreprises ayant un vrai besoin est chronophage et imprécis.',
-    solution: "8 workflows n8n : SCRAPE (détection d'offres), QUALIF (qualification du potentiel), ENRICH (enrichissement de l'entreprise), MATCH (matching avec les agents Gralt), PAGE (génération de landing page personnalisée sur audit.gralt.fr/slug), MAIL (génération d'email), SEND (envoi), TRACK (suivi et relances).",
+    context: "Système de prospection automatisée développé en interne par Gralt. Détecte des offres d'emploi qui révèlent un besoin automatisable chez l'entreprise, puis la contacte avec une proposition sur mesure et une page d'analyse personnalisée.",
+    problem: "La prospection manuelle par cold emailing classique a des taux de réponse très faibles (~1-2%). Identifier les entreprises qui ont un vrai besoin — et pas juste un email générique — prend des heures de recherche. Aucune personnalisation réelle des approches : même message envoyé à tout le monde. Impossible de scaler sans y passer tout son temps.",
+    solution: "8 workflows n8n orchestrés : SCRAPE (détection d'offres d'emploi révélant un besoin automatisable), QUALIF (qualification du potentiel de l'entreprise), ENRICH (enrichissement des données — taille, CA, contact décideur), MATCH (matching avec les agents Gralt pertinents), PAGE (génération d'une landing page d'analyse personnalisée sur audit.gralt.fr), MAIL (rédaction d'un email ultra-personnalisé), SEND (envoi), TRACK (suivi, relances et analytics).",
     tech: ['n8n (8 workflows)', 'Claude API', 'Supabase', 'Next.js'],
     results: [
-      'Dizaines de prospects qualifiés/semaine',
-      "Taux de réponse supérieur au cold emailing classique",
-      'Landing pages personnalisées pour chaque prospect',
-      'Système entièrement automatisé de bout en bout',
+      '~80 prospects qualifiés contactés/semaine',
+      'Taux de réponse de 6,4% (vs 1-2% en cold emailing classique)',
+      'Landing page personnalisée générée pour chaque prospect',
+      '5 rendez-vous qualifiés/mois en moyenne',
+      '2 clients signés sur le premier mois d\'exploitation',
+      'Système 100% automatisé de bout en bout',
     ],
     agent_slugs: ['pablo', 'zeus'],
     image: '/projects/jobsniper.webp',
@@ -1269,60 +1312,98 @@ export const caseStudies: CaseStudy[] = [
       { image: '/projects/wf-jobsniper.webp', title: 'Enrichissement de données', description: 'Enrichit les données de contact d\'une entreprise à partir de ses informations publiques.' },
     ],
   },
-  {
-    id: 'batizy',
-    title: 'Batizy \u2014 Application de suivi de chantier sur mesure',
-    slug: 'batizy',
-    type: 'detailed',
-    context: "PWA React/Supabase construite pour une entreprise BTP de 10 personnes, permettant le suivi complet des chantiers depuis le terrain.",
-    problem: "Suivi de chantier papier, rapports oubliés ou incomplets, ruptures de stock non anticipées, perte de temps administratif énorme pour les équipes terrain.",
-    solution: "Application web progressive (PWA) fonctionnant hors réseau grâce aux service workers. Photos avant/après, rapports de chantier, suivi de stock, panneau admin complet.",
-    tech: ['React (PWA)', 'Supabase', 'Service Workers'],
-    results: [
-      '-60-70% de temps administratif',
-      'Rapports de chantier remplis systématiquement',
-      'Fin des ruptures de stock non anticipées',
-      'Fonctionne même sans réseau sur les chantiers',
-    ],
-    agent_slugs: ['dino', 'odin'],
-    image: '/projects/batizy.webp',
-  },
 
-  // -- 3 mini --
+  // ═══════════════════════════════════════════
+  // 6. ANKÈS
+  // ═══════════════════════════════════════════
   {
     id: 'ankes',
-    title: "Ankes \u2014 Application de facturation pour artisans",
+    title: "Ankès — Application de facturation pour artisans",
     slug: 'ankes',
     type: 'detailed',
-    context: "Application Next.js/Supabase ultra-intuitive conçue pour des artisans non-techniques, permettant de gérer devis et factures simplement.",
-    problem: 'Artisans non-techniques perdant du temps avec des outils de facturation complexes ou le papier.',
-    solution: "Devis et factures en quelques secondes, mentions légales automatiques, relances automatiques d'impayés.",
+    context: "L'idée est née d'un constat personnel : un ami proche, artisan, passait ses dimanches sur Excel à faire ses factures au lieu de profiter de sa famille. Des heures volées à ses proches, chaque semaine, depuis 15 ans. Avec Jérémie Verwaerde, on a décidé de créer Ankès — une application de facturation pensée pour les artisans qui ne sont pas comptables.",
+    problem: "Des artisans qui passent leurs dimanches sur Excel à remplir des cellules, chercher des numéros de devis, relancer des clients manuellement. Des heures volées à leur famille et à leur métier. Des outils de facturation existants trop complexes pour des non-techniques. Des erreurs de mentions légales, des relances oubliées, des factures perdues dans des fichiers Excel.",
+    solution: "Application Next.js/Supabase ultra-intuitive : création de devis et factures en quelques clics, mentions légales automatiques et conformes, suivi des impayés en temps réel, relances automatiques, tableau de bord des chiffres clés de l'activité. Application complètement fonctionnelle développée en 16 heures.",
     tech: ['Next.js', 'Supabase'],
     results: [
-      'Devis/factures générés en quelques secondes',
-      'Mentions légales toujours conformes',
-      'Relances automatiques des impayés',
+      'Devis et factures générés en quelques secondes (vs dizaines de minutes sur Excel)',
+      'Mentions légales toujours conformes automatiquement',
+      'Relances d\'impayés automatiques — plus rien ne passe entre les mailles',
+      'Tableau de bord clair et visuel des chiffres clés',
+      'Application livrée fonctionnelle en 16h de développement',
     ],
     agent_slugs: ['mila', 'bruno'],
     image: '/projects/ankes.webp',
   },
+
+  // ═══════════════════════════════════════════
+  // 7. APP PLANNING
+  // ═══════════════════════════════════════════
   {
     id: 'planning-formatrice',
-    title: 'Application de planning pour formatrice indépendante',
+    title: 'App Planning — Application de planning pour formatrice indépendante',
     slug: 'planning-formatrice',
     type: 'detailed',
-    context: "2 applications interconnectées pour une formatrice indépendante : une app pour les écoles (réservation de créneaux) et une app personnelle (vue planning et export PDF).",
-    problem: 'Gestion de planning manuelle entre plusieurs écoles, risque de double-booking, pas de vue d\'ensemble, exports PDF chronophages.',
-    solution: "App écoles pour la réservation de créneaux + app personnelle avec vue planning complète et export PDF. Intégration Google Calendar et notifications automatiques.",
+    context: "Une formatrice indépendante en entrepreneuriat et management, intervenant dans 6 écoles de la métropole lilloise. Sa gestion de planning était un cauchemar quotidien entièrement géré par email.",
+    problem: "Planning géré par email entre 6 écoles différentes — des dizaines d'échanges pour caler un seul créneau. Double-bookings réguliers : deux écoles réservant le même créneau sans le savoir. Attente de réponses mails parfois pendant plusieurs jours avant de pouvoir confirmer. Rédaction manuelle de son propre planning à la main — peu professionnel et source d'erreurs. Chaque changement nécessitait de prévenir tout le monde individuellement.",
+    solution: "2 applications interconnectées Next.js/Supabase. App écoles : chaque école accède à ses créneaux disponibles et réserve directement. App formatrice : vue planning complète, export PDF en un clic, notifications automatiques. Intégration Google Calendar pour la synchronisation de tous les créneaux.",
     tech: ['Next.js', 'Supabase', 'Google Calendar API'],
     results: [
-      'Planning centralisé et auto-géré',
-      'Zéro double-booking',
-      'Notifications automatiques à toutes les parties',
-      'Export PDF en un clic',
+      '6 écoles utilisent l\'app pour réserver directement',
+      'Zéro double-booking depuis la mise en place',
+      'Prise de rendez-vous en quelques clics au lieu de chaînes d\'emails',
+      '~2h/semaine gagnées sur la gestion de planning',
+      'Export PDF du planning en un clic',
+      'Image plus professionnelle auprès des écoles partenaires',
     ],
     agent_slugs: ['dino'],
     image: '/projects/planning-formatrice.webp',
+  },
+
+  // ═══════════════════════════════════════════
+  // 8. AGENT IA PISCINISTE (HL Piscines & Spas)
+  // ═══════════════════════════════════════════
+  {
+    id: 'hl-piscines',
+    title: 'Agent IA Pisciniste — Classement automatique de documents pour HL Piscines & Spas',
+    slug: 'hl-piscines',
+    type: 'detailed',
+    context: "HL Piscines & Spas, pisciniste basé à Baisieux (59), spécialisé depuis 20 ans dans la conception, l'installation et l'entretien de piscines, spas et saunas. L'assistante commerciale croulait sous les dossiers papier accumulés au fil des années.",
+    problem: "Des milliers de dossiers papier stockés dans des armoires — bons de livraison, bons de commande, factures, informations clients. À chaque appel client (~3 par jour), l'assistante devait se lever physiquement, chercher le dossier dans l'armoire, pendant que le client attendait en ligne. 30 secondes à 3 minutes perdues par dossier — soit jusqu'à ~1h30/mois rien que pour la recherche. Retrouver un bon de livraison spécifique, le scanner, l'envoyer : une galère à chaque fois. Des heures entières de frustration chaque semaine.",
+    solution: "Agent IA de classement automatique de documents. L'assistante prend une photo du document avec son téléphone. L'agent identifie automatiquement le type (bon de livraison, bon de commande, facture), extrait les informations clés, et classe le document dans le bon dossier Google Drive — trié par client et par type de document.",
+    tech: ['n8n', 'Claude API (Vision)', 'Google Drive API'],
+    results: [
+      '~6h/mois gagnées sur la recherche et le classement de documents',
+      'Classement d\'un document en quelques secondes (vs 3-5 min manuellement)',
+      'Tous les documents accessibles depuis n\'importe où — plus besoin d\'être au bureau',
+      'Fin de la frustration quotidienne pour l\'assistante commerciale',
+      '100% des documents classés correctement et retrouvables instantanément',
+    ],
+    agent_slugs: [],
+    image: '/projects/hl-piscines.png',
+  },
+
+  // ═══════════════════════════════════════════
+  // 9. SITE SA BARBIEUX
+  // ═══════════════════════════════════════════
+  {
+    id: 'site-sa-barbieux',
+    title: 'Site SA Barbieux — Création du site vitrine',
+    slug: 'site-sa-barbieux',
+    type: 'detailed',
+    context: "SA Barbieux, entreprise familiale de couverture, plomberie et chauffage à Lille depuis 1913, aujourd'hui dirigée par la 4ème génération. 10 employés, plus de 5 000 projets réalisés. Malgré 110 ans d'existence, l'entreprise n'avait aucune présence digitale.",
+    problem: "Aucun site internet — l'entreprise était totalement invisible en ligne malgré plus de 110 ans d'existence et une solide réputation locale. Pas de vitrine digitale pour présenter les services et rassurer les prospects. Perte de clients potentiels qui cherchent un artisan sur Google. Plaquette papier vieillissante comme seul support commercial.",
+    solution: "Création complète du site vitrine sabarbieux.fr : présentation des 3 pôles d'activité (couverture et zinguerie, plomberie et sanitaire, chauffage et climatisation), mise en avant de l'histoire familiale et des certifications (Qualibat RGE, garantie décennale), formulaire de demande de devis, optimisation SEO local sur les requêtes clés.",
+    tech: ['Next.js', 'Vercel'],
+    results: [
+      'Première présence digitale de l\'entreprise en 110 ans d\'existence',
+      'Site vitrine professionnel reflétant le sérieux et l\'ancienneté de l\'entreprise',
+      'Formulaire de devis accessible 24h/24',
+      'Référencement local sur les requêtes clés (couvreur Lille, plombier Lille...)',
+      'Base solide pour la suite de la digitalisation — l\'app Batizy a été développée dans la foulée',
+    ],
+    agent_slugs: [],
+    image: '/projects/sa-barbieux.png',
   },
 ]
 

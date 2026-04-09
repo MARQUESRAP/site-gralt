@@ -29,16 +29,32 @@ export const metadata: Metadata = {
     siteName: 'Gralt',
     locale: 'fr_FR',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Gralt — Agents IA au service de votre entreprise',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Gralt — 31 agents IA au service de votre entreprise',
     description:
       'Découvrez 31 agents IA spécialisés en prospection, marketing, support client, recrutement, admin et pilotage.',
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: [
+      { url: '/favicon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/favicon-512.png',
   },
   alternates: {
     canonical: 'https://gralt.fr',

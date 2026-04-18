@@ -32,7 +32,6 @@ export default function AgentPageClient({
 }: Props) {
   const { setActiveColor } = useSectionColor()
   const [chatOpen, setChatOpen] = useState(false)
-  const [detailsOpen, setDetailsOpen] = useState(false)
   const color = agent.is_golden ? '#F5C842' : agent.color
 
   useEffect(() => {
@@ -241,64 +240,13 @@ export default function AgentPageClient({
               Informations pratiques
             </NeonText>
             <GlassCard color={color} className="p-8">
-              <div className="grid gap-6 md:grid-cols-3">
-                <div>
-                  <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">
-                    Mise en place
-                  </p>
-                  <p className="text-xl font-bold text-text-primary">
-                    {agent.prix_setup.toLocaleString('fr-FR')}€
-                  </p>
-                </div>
-                <div>
-                  <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">
-                    Frais d&apos;abonnements mensuels
-                  </p>
-                  <p className="text-xl font-bold text-text-primary">
-                    {agent.prix_mensuel}€/mois
-                  </p>
-                  <p className="mt-1 text-xs text-text-secondary">
-                    Abonnements nécessaires au fonctionnement du système
-                  </p>
-                  {agent.abonnement_details && agent.abonnement_details.length > 0 && (
-                    <div className="mt-3">
-                      <button
-                        onClick={() => setDetailsOpen(!detailsOpen)}
-                        className="flex items-center gap-1 text-xs font-medium transition-colors"
-                        style={{ color }}
-                      >
-                        <svg
-                          className={`h-3 w-3 transition-transform ${detailsOpen ? 'rotate-90' : ''}`}
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                        Voir le détail
-                      </button>
-                      {detailsOpen && (
-                        <ul className="mt-2 flex flex-col gap-1.5">
-                          {agent.abonnement_details.map((detail, i) => (
-                            <li key={i} className="flex items-center justify-between text-xs text-text-secondary">
-                              <span>{detail.label}</span>
-                              <span className="font-medium text-text-primary">{detail.amount}€</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">
-                    Délai de mise en place
-                  </p>
-                  <p className="text-xl font-bold text-text-primary">
-                    {agent.delai}
-                  </p>
-                </div>
+              <div>
+                <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">
+                  Délai de mise en place
+                </p>
+                <p className="text-xl font-bold text-text-primary">
+                  {agent.delai}
+                </p>
               </div>
             </GlassCard>
           </div>

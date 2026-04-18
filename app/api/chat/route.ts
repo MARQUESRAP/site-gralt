@@ -14,8 +14,6 @@ function buildCatalog(): string {
     sous_section: a.subsection,
     accroche: a.accroche,
     etapes: a.description_steps.map((s) => s.text),
-    prix_setup: `${a.prix_setup}€`,
-    prix_mensuel: `${a.prix_mensuel}€/mois`,
     delai: a.delai,
     roi: a.roi,
     is_golden: a.is_golden,

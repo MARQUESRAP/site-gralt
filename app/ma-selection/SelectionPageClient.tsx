@@ -3,7 +3,6 @@
 import { useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import GlassCard from '@/components/ui/GlassCard'
 import NeonText from '@/components/ui/NeonText'
 import SectionBackground from '@/components/ui/SectionBackground'
@@ -73,32 +72,16 @@ export default function SelectionPageClient() {
   }
 
   // ─── Calculations ───
-  const totalSetup = fullAgents.reduce((s, a) => s + a.prix_setup, 0)
-  const totalMonthly = fullAgents.reduce((s, a) => s + a.prix_mensuel, 0)
-
   const totalWeeklyHours = fullAgents.reduce(
     (s, a) => s + parseHoursPerWeek(a.resultats.heures_liberees),
     0
   )
-
-  // 1 FTE = ~1600h/year = ~40h/week productive
-  const fteEquivalent = totalWeeklyHours / 40
-  const salaryMin = Math.round(fteEquivalent * 45000)
-  const salaryMax = Math.round(fteEquivalent * 55000)
 
   // Deployment time = max of all agents (parallel deployment)
   const maxDeployWeeks = Math.max(...fullAgents.map((a) => parseMaxWeeks(a.delai)))
 
   // ROI = max of all agents
   const maxRoiWeeks = Math.max(...fullAgents.map((a) => parseMaxWeeks(a.roi)))
-
-  // Annual cost of agents
-  const annualAgentCost = totalSetup + totalMonthly * 12
-
-  // Bar chart widths (salary is always wider to show the gap)
-  const maxCost = Math.max(salaryMax, annualAgentCost)
-  const agentBarPercent = maxCost > 0 ? (annualAgentCost / maxCost) * 100 : 50
-  const salaryBarPercent = maxCost > 0 ? (salaryMax / maxCost) * 100 : 100
 
   return (
     <div className="relative min-h-screen">
@@ -152,11 +135,6 @@ export default function SelectionPageClient() {
                     <p className="mt-0.5 truncate text-xs text-text-secondary">
                       {agent.accroche}
                     </p>
-                    <p className="mt-1 text-xs text-text-secondary">
-                      Mise en place : {agent.prix_setup.toLocaleString('fr-FR')}€
-                      {' · '}
-                      {agent.prix_mensuel}€/mois
-                    </p>
                   </div>
                   <button
                     onClick={() => removeAgent(agent.id)}
@@ -183,84 +161,6 @@ export default function SelectionPageClient() {
                 Tout supprimer
               </button>
             </div>
-          </div>
-        </ScrollReveal>
-
-        {/* ═══ PARTIE 2 — Récap financier ═══ */}
-        <ScrollReveal>
-          <div className="mb-12">
-            <NeonText as="h2" size="md" className="mb-8">
-              Récap financier
-            </NeonText>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              <GlassCard color="#00E5CC" className="p-6">
-                <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">
-                  Mise en place (une fois)
-                </p>
-                <p className="text-2xl font-bold text-text-primary">
-                  {totalSetup.toLocaleString('fr-FR')}€
-                </p>
-              </GlassCard>
-              <GlassCard color="#00E5CC" className="p-6">
-                <p className="mb-1 text-xs font-medium uppercase tracking-wider text-text-secondary">
-                  Frais d&apos;abonnements mensuels
-                </p>
-                <p className="text-2xl font-bold text-text-primary">
-                  {totalMonthly.toLocaleString('fr-FR')}€/mois
-                </p>
-              </GlassCard>
-            </div>
-
-            {/* Comparatif employé */}
-            <GlassCard color="#00E5CC" className="mt-6 p-6">
-              <p className="mb-4 text-sm leading-relaxed text-text-secondary">
-                Le travail de ces <span className="font-semibold text-text-primary">{fullAgents.length} agents</span> libère
-                l&apos;équivalent de <span className="font-semibold text-text-primary">{Math.round(totalWeeklyHours)}h par semaine</span>,
-                soit le travail de <span className="font-semibold text-text-primary">{fteEquivalent.toFixed(1)} poste{fteEquivalent > 1 ? 's' : ''} à temps plein</span>.
-              </p>
-              <p className="mb-6 text-sm text-text-secondary">
-                Coût salarial équivalent : <span className="font-semibold text-text-primary">{salaryMin.toLocaleString('fr-FR')}€ — {salaryMax.toLocaleString('fr-FR')}€/an</span> charges comprises.
-              </p>
-
-              {/* Barres animées */}
-              <div className="flex flex-col gap-4">
-                <div>
-                  <p className="mb-2 text-xs font-medium text-accent">
-                    Votre investissement (1ère année)
-                  </p>
-                  <div className="h-8 overflow-hidden rounded-lg bg-dark-border/30">
-                    <motion.div
-                      className="flex h-full items-center rounded-lg px-3 text-xs font-medium text-dark-bg"
-                      style={{ background: '#00E5CC' }}
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${agentBarPercent}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
-                    >
-                      {annualAgentCost.toLocaleString('fr-FR')}€
-                    </motion.div>
-                  </div>
-                </div>
-                <div>
-                  <p className="mb-2 text-xs font-medium text-red-400">
-                    Coût salarial équivalent
-                  </p>
-                  <div className="h-8 overflow-hidden rounded-lg bg-dark-border/30">
-                    <motion.div
-                      className="flex h-full items-center rounded-lg px-3 text-xs font-medium text-white"
-                      style={{ background: 'rgba(239, 68, 68, 0.7)' }}
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${salaryBarPercent}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
-                    >
-                      {salaryMin.toLocaleString('fr-FR')}€ — {salaryMax.toLocaleString('fr-FR')}€/an
-                    </motion.div>
-                  </div>
-                </div>
-              </div>
-            </GlassCard>
           </div>
         </ScrollReveal>
 

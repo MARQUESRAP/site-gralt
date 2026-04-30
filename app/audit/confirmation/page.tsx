@@ -73,7 +73,7 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
             Cas clients, retours d'expérience automatisation IA, et coulisses de l'agence.
           </p>
           <a
-            href="https://www.linkedin.com/in/raphaelmarques/"
+            href="https://www.linkedin.com/in/rapha%C3%ABl-marques/"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-5 inline-flex items-center gap-2 rounded-xl border border-accent/40 px-5 py-3 text-sm font-semibold text-text-primary transition-[border-color,box-shadow,transform] duration-200 hover:scale-[1.02] hover:border-accent hover:shadow-[0_0_25px_rgba(0,229,204,0.20),0_0_50px_rgba(0,229,204,0.10)]"

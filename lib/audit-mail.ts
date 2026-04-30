@@ -12,20 +12,20 @@ export function buildAuditMail({ companyName, calLink = DEFAULT_CAL }: AuditMail
 
   const text = `Bonjour,
 
-Voici l'audit IA de ${company}, en piece jointe.
+Voici l'audit IA de ${company}, en pièce jointe.
 
 Ce qu'il contient :
-- 3 frictions concretes detectees dans votre activite
-- Pour chaque friction, le temps gagne potentiel et un cas client comparable
-- Des leviers IA actionnables, pas du conseil generique
+- 3 frictions concrètes détectées dans votre activité
+- Pour chaque friction, le temps gagné potentiel et un cas client comparable
+- Des leviers IA actionnables, pas du conseil générique
 
-C'est un diagnostic prealable, base sur les donnees publiques. La precision se fait au telephone.
+C'est un diagnostic préalable, basé sur les données publiques. La précision se fait au téléphone.
 
 Si l'analyse vous parle, on peut en discuter 30 minutes :
 ${calLink}
 
-A vous lire,
-Raphael Marques
+À vous lire,
+Raphaël Marques
 Fondateur, Gralt
 raphael@gralt.fr
 `
@@ -44,36 +44,36 @@ raphael@gralt.fr
             </tr>
             <tr>
               <td style="font-size:22px;line-height:1.4;color:#FFFFFF;font-weight:600;padding-bottom:20px;">
-                Votre audit IA de ${escapeHtml(company)} est pret.
+                Votre audit IA de ${escapeHtml(company)} est prêt.
               </td>
             </tr>
             <tr>
               <td style="font-size:15px;line-height:1.7;color:#C5C9D3;padding-bottom:18px;">
-                Il est en piece jointe. Voici ce qu'il contient :
+                Il est en pièce jointe. Voici ce qu'il contient :
               </td>
             </tr>
             <tr>
               <td style="font-size:15px;line-height:1.8;color:#C5C9D3;padding-bottom:24px;">
-                &mdash; 3 frictions concretes detectees dans votre activite<br/>
-                &mdash; Pour chaque friction, le temps gagne potentiel et un cas client comparable<br/>
-                &mdash; Des leviers IA actionnables, pas du conseil generique
+                &mdash; 3 frictions concrètes détectées dans votre activité<br/>
+                &mdash; Pour chaque friction, le temps gagné potentiel et un cas client comparable<br/>
+                &mdash; Des leviers IA actionnables, pas du conseil générique
               </td>
             </tr>
             <tr>
               <td style="font-size:14px;line-height:1.7;color:#8E94A3;padding-bottom:32px;font-style:italic;">
-                C'est un diagnostic prealable, base sur les donnees publiques. La precision se fait au telephone.
+                C'est un diagnostic préalable, basé sur les données publiques. La précision se fait au téléphone.
               </td>
             </tr>
             <tr>
               <td style="padding-bottom:32px;">
                 <a href="${calLink}" style="display:inline-block;background:#00E5CC;color:#0A0E1A;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:600;font-size:15px;letter-spacing:0.01em;">
-                  Reserver 30 min &rarr;
+                  Réserver 30 min &rarr;
                 </a>
               </td>
             </tr>
             <tr>
               <td style="font-size:13px;line-height:1.6;color:#8E94A3;border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;">
-                Raphael Marques &middot; Fondateur Gralt<br/>
+                Raphaël Marques &middot; Fondateur Gralt<br/>
                 <a href="mailto:raphael@gralt.fr" style="color:#00E5CC;text-decoration:none;">raphael@gralt.fr</a>
               </td>
             </tr>

@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
 
   if (hermesUrl && hermesSecret) {
     const hermesPayload = {
-      event: 'audit.request',
+      event_type: 'audit.request',
       timestamp: new Date().toISOString(),
       data: {
         request_id: requestId,

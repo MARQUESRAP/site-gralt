@@ -17,19 +17,19 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-dark-bg pb-24 pt-12 sm:pt-20">
-      <BackgroundGlow />
+      <BackgroundDecor />
 
       <div className="relative mx-auto flex w-full max-w-2xl flex-col gap-12 px-6 sm:px-8">
         <Header />
 
         <section className="flex flex-col gap-7">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
-            Dossier en préparation
-          </p>
+          <Eyebrow>Dossier en préparation</Eyebrow>
 
-          <h1 className="font-sans text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.05] tracking-[-0.03em] text-text-primary">
+          <h1 className="font-sans text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.05] tracking-[-0.035em] text-text-primary text-balance">
             Votre audit arrive dans{' '}
-            <span className="text-accent">10 minutes</span>
+            <span className="text-accent [text-shadow:0_0_20px_rgba(0,229,204,0.4),0_0_60px_rgba(0,229,204,0.2)]">
+              10 minutes
+            </span>
             {email ? (
               <>
                 {' '}sur{' '}
@@ -42,7 +42,7 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
 
           <p className="max-w-[58ch] text-base leading-[1.65] text-text-primary/85 sm:text-[17px]">
             Notre agent analyse votre site et votre page LinkedIn, croise les signaux avec une base
-            de 314 cas d'automatisation similaires, et vous livre un PDF brandé à vos couleurs avec
+            de 295 cas d&apos;automatisation similaires, et vous livre un PDF brandé à vos couleurs avec
             3 process automatisables prioritaires, chiffrés en heures gagnées par semaine.
           </p>
 
@@ -59,28 +59,38 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
           </p>
         </section>
 
-        <section
-          aria-label="Pendant l'attente"
-          className="rounded-2xl border border-dark-border bg-dark-card/60 p-6 backdrop-blur-[12px] sm:p-7"
-        >
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
-            Pendant que ça tourne
-          </p>
-          <h2 className="mt-3 text-xl font-semibold tracking-[-0.01em] text-text-primary">
-            Suivez Raphaël sur LinkedIn pour la suite.
-          </h2>
-          <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-            Cas clients, retours d'expérience automatisation IA, et coulisses de l'agence.
-          </p>
-          <a
-            href="https://www.linkedin.com/in/rapha%C3%ABl-marques/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center gap-2 rounded-xl border border-accent/40 px-5 py-3 text-sm font-semibold text-text-primary transition-[border-color,box-shadow,transform] duration-200 hover:scale-[1.02] hover:border-accent hover:shadow-[0_0_25px_rgba(0,229,204,0.20),0_0_50px_rgba(0,229,204,0.10)]"
-          >
-            <span>Suivre Raphaël</span>
-            <span aria-hidden className="text-base leading-none">→</span>
-          </a>
+        <section aria-label="Pendant l'attente" className="relative">
+          {/* Halo cyan animé */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-[2px] rounded-[26px] opacity-40 blur-md"
+            style={{
+              background:
+                'linear-gradient(120deg, rgba(0,229,204,0.4), transparent 30%, transparent 70%, rgba(0,229,204,0.4))',
+              backgroundSize: '200% 100%',
+              animation: 'audit-glow-rotate 8s linear infinite',
+            }}
+          />
+          <div className="relative rounded-3xl border border-accent/30 bg-dark-card/80 p-6 backdrop-blur-[16px] sm:p-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+              Pendant que ça tourne
+            </p>
+            <h2 className="mt-3 text-xl font-semibold tracking-[-0.01em] text-text-primary">
+              Suivez Raphaël sur LinkedIn pour la suite.
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+              Cas clients, retours d&apos;expérience automatisation IA, et coulisses de l&apos;agence.
+            </p>
+            <a
+              href="https://www.linkedin.com/in/rapha%C3%ABl-marques/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex items-center gap-2 rounded-xl border border-accent/40 px-5 py-3 text-sm font-semibold text-text-primary transition-[border-color,box-shadow,transform] duration-200 hover:scale-[1.02] hover:border-accent hover:shadow-[0_0_25px_rgba(0,229,204,0.20),0_0_50px_rgba(0,229,204,0.10)]"
+            >
+              <span>Suivre Raphaël</span>
+              <span aria-hidden className="text-base leading-none">→</span>
+            </a>
+          </div>
         </section>
       </div>
     </main>
@@ -103,7 +113,22 @@ function Header() {
   )
 }
 
-function BackgroundGlow() {
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="inline-flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+      <span className="relative inline-flex h-2 w-2">
+        <span
+          className="absolute inset-0 rounded-full bg-accent opacity-60"
+          style={{ animation: 'audit-ping 1.8s cubic-bezier(0,0,0.2,1) infinite' }}
+        />
+        <span className="relative h-2 w-2 rounded-full bg-accent shadow-[0_0_12px_rgba(0,229,204,1)]" />
+      </span>
+      {children}
+    </div>
+  )
+}
+
+function BackgroundDecor() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <div
@@ -111,6 +136,21 @@ function BackgroundGlow() {
         style={{
           background:
             'radial-gradient(closest-side, rgba(0, 229, 204, 0.55), rgba(0, 229, 204, 0))',
+        }}
+      />
+      {/* Grille cyan */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,229,204,0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,229,204,0.06) 1px, transparent 1px)
+          `,
+          backgroundSize: '64px 64px',
+          maskImage:
+            'radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 80%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 80%)',
         }}
       />
     </div>

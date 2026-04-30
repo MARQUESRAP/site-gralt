@@ -42,12 +42,15 @@ export default function AuditForm() {
   const [email, setEmail] = useState('')
   const [errors, setErrors] = useState<FieldErrors>({})
   const [submitting, setSubmitting] = useState(false)
+  const [focused, setFocused] = useState<string | null>(null)
 
   function handleBlur(name: keyof FieldErrors) {
+    setFocused(null)
     const otherUrlPresent =
       (name === 'website_url' && linkedinUrl.trim().length > 0) ||
       (name === 'linkedin_url' && websiteUrl.trim().length > 0)
-    const value = name === 'website_url' ? websiteUrl : name === 'linkedin_url' ? linkedinUrl : email
+    const value =
+      name === 'website_url' ? websiteUrl : name === 'linkedin_url' ? linkedinUrl : email
     const error = validateField(name, value, otherUrlPresent)
     setErrors((prev) => ({ ...prev, [name]: error, general: undefined }))
   }
@@ -93,7 +96,9 @@ export default function AuditForm() {
             'Cette entreprise a deja fait son audit. Pour en relancer un, ecrivez a raphael@gralt.fr.',
         })
       } else if (response.status === 400) {
-        const fieldKey = (data?.error as string | undefined)?.replace('invalid_', '').replace('missing_', '')
+        const fieldKey = (data?.error as string | undefined)
+          ?.replace('invalid_', '')
+          .replace('missing_', '')
         if (fieldKey === 'email') {
           setErrors({ email: data.message })
         } else if (fieldKey === 'website_url') {
@@ -102,8 +107,7 @@ export default function AuditForm() {
           setErrors({ linkedin_url: data.message })
         } else {
           setErrors({
-            general:
-              data?.message ?? 'Au moins une URL valide est requise (site ou LinkedIn).',
+            general: data?.message ?? 'Au moins une URL valide est requise (site ou LinkedIn).',
           })
         }
       } else {
@@ -142,7 +146,9 @@ export default function AuditForm() {
         placeholder="https://votreentreprise.com"
         value={websiteUrl}
         onChange={setWebsiteUrl}
+        onFocus={() => setFocused('website_url')}
         onBlur={() => handleBlur('website_url')}
+        focused={focused === 'website_url'}
         error={errors.website_url}
         autoComplete="url"
       />
@@ -155,7 +161,9 @@ export default function AuditForm() {
         placeholder="linkedin.com/company/votre-entreprise"
         value={linkedinUrl}
         onChange={setLinkedinUrl}
+        onFocus={() => setFocused('linkedin_url')}
         onBlur={() => handleBlur('linkedin_url')}
+        focused={focused === 'linkedin_url'}
         error={errors.linkedin_url}
         autoComplete="off"
       />
@@ -168,7 +176,9 @@ export default function AuditForm() {
         placeholder="vous@votreentreprise.com"
         value={email}
         onChange={setEmail}
+        onFocus={() => setFocused('email')}
         onBlur={() => handleBlur('email')}
+        focused={focused === 'email'}
         error={errors.email}
         autoComplete="email"
         required
@@ -177,36 +187,37 @@ export default function AuditForm() {
       <motion.button
         type="submit"
         disabled={submitting}
-        whileHover={!submitting ? { scale: 1.02 } : undefined}
+        whileHover={!submitting ? { scale: 1.02, y: -2 } : undefined}
         whileTap={!submitting ? { scale: 0.98 } : undefined}
         animate={
           !submitting
             ? {
                 boxShadow: [
-                  '0 0 20px rgba(0, 229, 204, 0.30), 0 0 40px rgba(0, 229, 204, 0.10)',
-                  '0 0 28px rgba(0, 229, 204, 0.38), 0 0 52px rgba(0, 229, 204, 0.16)',
-                  '0 0 20px rgba(0, 229, 204, 0.30), 0 0 40px rgba(0, 229, 204, 0.10)',
+                  '0 0 24px rgba(0, 229, 204, 0.35), 0 0 60px rgba(0, 229, 204, 0.14)',
+                  '0 0 32px rgba(0, 229, 204, 0.45), 0 0 76px rgba(0, 229, 204, 0.20)',
+                  '0 0 24px rgba(0, 229, 204, 0.35), 0 0 60px rgba(0, 229, 204, 0.14)',
                 ],
               }
             : { boxShadow: '0 0 0 rgba(0, 229, 204, 0)' }
         }
         transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-4 text-base font-semibold text-dark-bg transition-[opacity,filter] duration-200 disabled:cursor-not-allowed disabled:opacity-60 disabled:saturate-50"
+        className="audit-cta-shine-host relative mt-2 inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-accent px-7 py-[18px] text-base font-bold text-dark-bg transition-[opacity,filter] duration-200 disabled:cursor-not-allowed disabled:opacity-60 disabled:saturate-50"
       >
         {submitting ? (
           <>
             <Spinner />
-            <span>Génération en cours, ne fermez pas la page</span>
+            <span className="relative z-10">Génération en cours, ne fermez pas la page</span>
           </>
         ) : (
           <>
-            <span>Lancer mon audit gratuit</span>
-            <span aria-hidden className="text-lg leading-none">→</span>
+            <span className="relative z-10">Lancer mon audit gratuit</span>
+            <span aria-hidden className="relative z-10 text-lg leading-none">→</span>
+            <span aria-hidden className="audit-cta-shine" />
           </>
         )}
       </motion.button>
 
-      <p className="text-center text-xs uppercase tracking-[0.16em] text-text-secondary">
+      <p className="text-center text-[11px] uppercase tracking-[0.16em] text-text-secondary">
         Audit en 10 minutes · Aucun engagement · Vos données restent privées
       </p>
     </form>
@@ -221,7 +232,9 @@ interface FieldProps {
   placeholder: string
   value: string
   onChange: (next: string) => void
+  onFocus: () => void
   onBlur: () => void
+  focused: boolean
   error?: string
   autoComplete?: string
   required?: boolean
@@ -235,7 +248,9 @@ function Field({
   placeholder,
   value,
   onChange,
+  onFocus,
   onBlur,
+  focused,
   error,
   autoComplete,
   required,
@@ -244,32 +259,45 @@ function Field({
     <label htmlFor={id} className="flex flex-col gap-2">
       <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-secondary">
         {label}
-        {required && <span aria-hidden className="ml-1 text-accent">*</span>}
+        {required && (
+          <span aria-hidden className="ml-1 text-accent">
+            *
+          </span>
+        )}
       </span>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        inputMode={type === 'email' ? 'email' : 'url'}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        onBlur={onBlur}
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-        aria-invalid={Boolean(error)}
-        aria-describedby={error ? `${id}-error` : `${id}-helper`}
-        className={`rounded-xl border bg-dark-card px-[18px] py-[14px] text-base text-text-primary placeholder:text-text-secondary/70 transition-[border-color,box-shadow] duration-200 focus:outline-none ${
-          error
-            ? 'border-[#FB923C]/70 focus:border-[#FB923C] focus:shadow-[0_0_0_3px_rgba(251,146,60,0.18)]'
-            : 'border-dark-border focus:border-accent focus:shadow-[0_0_0_3px_rgba(0,229,204,0.18)]'
-        }`}
-      />
+      <div className="relative">
+        <input
+          id={id}
+          name={id}
+          type={type}
+          inputMode={type === 'email' ? 'email' : 'url'}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          placeholder={placeholder}
+          autoComplete={autoComplete}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? `${id}-error` : `${id}-helper`}
+          className={`w-full rounded-xl border bg-dark-bg/60 px-[18px] py-[15px] text-base text-text-primary placeholder:text-text-secondary/60 transition-[border-color,box-shadow,background] duration-200 focus:bg-dark-bg/80 focus:outline-none ${
+            error
+              ? 'border-[#FB923C]/70 focus:border-[#FB923C] focus:shadow-[0_0_0_3px_rgba(251,146,60,0.18)]'
+              : 'border-dark-border focus:border-accent focus:shadow-[0_0_0_3px_rgba(0,229,204,0.20),0_0_24px_rgba(0,229,204,0.12)]'
+          }`}
+        />
+        {focused && !error && (
+          <span
+            aria-hidden
+            className="pointer-events-none absolute right-4 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-accent"
+            style={{
+              boxShadow: '0 0 12px rgba(0,229,204,1)',
+              animation: 'audit-ping 1.4s ease-in-out infinite',
+            }}
+          />
+        )}
+      </div>
       {error ? (
-        <span
-          id={`${id}-error`}
-          role="alert"
-          className="text-xs leading-snug text-[#FB923C]"
-        >
+        <span id={`${id}-error`} role="alert" className="text-xs leading-snug text-[#FB923C]">
           {error}
         </span>
       ) : (
@@ -288,7 +316,7 @@ function Spinner() {
       height="16"
       viewBox="0 0 16 16"
       aria-hidden
-      className="animate-spin"
+      className="relative z-10 animate-spin"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"

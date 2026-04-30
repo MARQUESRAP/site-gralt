@@ -46,10 +46,6 @@ export default function AuditPage() {
               <span className="font-semibold text-text-primary">3 process automatisables</span>, chiffrés
               en heures gagnées par semaine. Aucun engagement, aucune diapositive commerciale.
             </p>
-
-            <div className="mt-1">
-              <SocialProof />
-            </div>
           </div>
 
           <div className="hidden justify-center lg:flex">
@@ -146,44 +142,6 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 }
 
 /* ─────────────────────────────────────────── */
-/* Social proof                               */
-/* ─────────────────────────────────────────── */
-function SocialProof() {
-  return (
-    <div className="inline-flex items-center gap-5 rounded-2xl border border-dark-border bg-dark-card/70 px-5 py-3.5 backdrop-blur-md">
-      <div className="flex">
-        {[
-          'linear-gradient(135deg,#00E5CC,#0099AA)',
-          'linear-gradient(135deg,#B44AFF,#7928CA)',
-          'linear-gradient(135deg,#22C55E,#15803D)',
-          'linear-gradient(135deg,#FB923C,#F472B6)',
-        ].map((bg, i) => (
-          <span
-            key={i}
-            aria-hidden
-            className="h-8 w-8 rounded-full border-[2px] border-dark-bg"
-            style={{
-              background: bg,
-              marginLeft: i === 0 ? 0 : -10,
-              zIndex: 4 - i,
-            }}
-          />
-        ))}
-      </div>
-      <span className="h-7 w-px bg-dark-border" />
-      <div className="flex flex-col gap-0.5">
-        <p className="text-[13px] font-semibold text-text-primary">
-          <span className="text-accent">295</span> entreprises auditées
-        </p>
-        <p className="text-[11px] tracking-[0.04em] text-text-secondary">
-          PDF livré en moins de 10 minutes · Note 4.6/5
-        </p>
-      </div>
-    </div>
-  )
-}
-
-/* ─────────────────────────────────────────── */
 /* PDF mockup — image réelle (Lemonway)        */
 /* ─────────────────────────────────────────── */
 function PdfMockup() {
@@ -238,7 +196,7 @@ function ProcessDiagram() {
     {
       i: '02',
       t: 'Notre agent analyse',
-      d: 'Scraping + croisement avec 295 cas similaires, structuration en 10 sections.',
+      d: 'Scraping + croisement avec une base de cas réels, structuration en 10 sections.',
       icon: 'cpu' as const,
     },
     {

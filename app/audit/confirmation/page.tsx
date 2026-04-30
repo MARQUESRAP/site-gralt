@@ -42,7 +42,7 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
 
           <p className="max-w-[58ch] text-base leading-[1.65] text-text-primary/85 sm:text-[17px]">
             Notre agent analyse votre site et votre page LinkedIn, croise les signaux avec une base
-            de 295 cas d&apos;automatisation similaires, et vous livre un PDF brandé à vos couleurs avec
+            de cas d&apos;automatisation réels, et vous livre un PDF brandé à vos couleurs avec
             3 process automatisables prioritaires, chiffrés en heures gagnées par semaine.
           </p>
 

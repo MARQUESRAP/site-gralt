@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import Providers from './providers'
 import Header from '@/components/layout/Header'
@@ -119,6 +120,7 @@ export default function RootLayout({
           <Footer />
           <FloatingCounter />
         </Providers>
+        <Script src="/gralt-tracker.js" strategy="afterInteractive" />
       </body>
     </html>
   )

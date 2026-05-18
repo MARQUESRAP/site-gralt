@@ -1,9 +1,10 @@
 const items = [
-  '31 agents disponibles',
-  '8+ projets réalisés',
-  '6 sections métier',
+  '~95h/semaine libérées chez mes clients',
+  '10 automatisations en production',
+  '6 entreprises clientes',
+  '5 fonctions métier couvertes',
+  '31 agents IA au catalogue',
   'Mis en place en 2-5 semaines',
-  'ROI mesurable dès le premier mois',
 ]
 
 export default function SocialProof() {

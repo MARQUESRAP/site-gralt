@@ -1,6 +1,14 @@
 // ═══════════════════════════════════════════
 // GRALT — Seed Script
 // Run: npx tsx data/seed.ts
+//
+// ⚠️ DÉSYNCHRO TEMPORAIRE :
+// La source de vérité pour le rendu du site est `lib/data.ts`.
+// Les case studies de ce fichier n'ont PAS encore été resynchronisés
+// avec la refonte /travaux (10 réalisations + champs category/time_saved/
+// headline_metric/client_*/sub_automations).
+// À aligner avant le prochain `seed()` en prod, sinon la DB sera
+// incohérente avec le site.
 // ═══════════════════════════════════════════
 
 import { createClient } from '@supabase/supabase-js'

@@ -50,12 +50,19 @@ CREATE TABLE case_studies (
   title TEXT NOT NULL,
   slug TEXT NOT NULL UNIQUE,
   type TEXT NOT NULL CHECK (type IN ('detailed', 'mini')),
+  category TEXT NOT NULL CHECK (category IN ('prospection', 'contenu', 'donnees', 'rh', 'operations')),
   context TEXT NOT NULL DEFAULT '',
   problem TEXT NOT NULL DEFAULT '',
   solution TEXT NOT NULL DEFAULT '',
   tech JSONB NOT NULL DEFAULT '[]',
   results JSONB NOT NULL DEFAULT '[]',
-  agent_slugs JSONB NOT NULL DEFAULT '[]'
+  agent_slugs JSONB NOT NULL DEFAULT '[]',
+  time_saved TEXT,
+  headline_metric TEXT,
+  client_name TEXT,
+  client_logo TEXT,
+  client_anonymous BOOLEAN NOT NULL DEFAULT FALSE,
+  sub_automations JSONB NOT NULL DEFAULT '[]'
 );
 
 -- ───────────────────────────────────────────

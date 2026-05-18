@@ -58,11 +58,25 @@ export interface CaseStudyWorkflow {
   description: string
 }
 
+export type CaseStudyCategory =
+  | 'prospection'
+  | 'contenu'
+  | 'donnees'
+  | 'rh'
+  | 'operations'
+
+export interface CaseStudySubAutomation {
+  title: string
+  description: string
+  time_saved: string
+}
+
 export interface CaseStudy {
   id: string
   title: string
   slug: string
   type: 'detailed' | 'mini'
+  category: CaseStudyCategory
   context: string
   problem: string
   solution: string
@@ -71,6 +85,51 @@ export interface CaseStudy {
   agent_slugs: string[]
   image?: string
   workflows?: CaseStudyWorkflow[]
+  // Nouveau format /travaux
+  time_saved?: string
+  headline_metric?: string
+  client_name?: string | null
+  client_logo?: string | null
+  client_anonymous?: boolean
+  sub_automations?: CaseStudySubAutomation[]
+}
+
+export const CASE_STUDY_CATEGORIES: Record<CaseStudyCategory, {
+  label: string
+  color: string
+  bg: string
+  order: number
+}> = {
+  prospection: {
+    label: 'Prospection & Vente',
+    color: '#00E5CC',
+    bg: 'rgba(0, 229, 204, 0.12)',
+    order: 1,
+  },
+  contenu: {
+    label: 'Marketing & Contenu',
+    color: '#B44AFF',
+    bg: 'rgba(180, 74, 255, 0.12)',
+    order: 2,
+  },
+  donnees: {
+    label: 'Données & Référencement',
+    color: '#22C55E',
+    bg: 'rgba(34, 197, 94, 0.12)',
+    order: 3,
+  },
+  rh: {
+    label: 'RH & Recrutement',
+    color: '#FB923C',
+    bg: 'rgba(251, 146, 60, 0.12)',
+    order: 4,
+  },
+  operations: {
+    label: 'Opérations & Admin',
+    color: '#818CF8',
+    bg: 'rgba(129, 140, 248, 0.12)',
+    order: 5,
+  },
 }
 
 export interface FormSubmission {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import GlassCard from '@/components/ui/GlassCard'
@@ -9,9 +9,179 @@ import SectionBackground from '@/components/ui/SectionBackground'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import { ScrollRevealGroup, ScrollRevealItem } from '@/components/ui/ScrollReveal'
 import { useSectionColor } from '@/lib/SectionContext'
-import type { CaseStudy } from '@/types'
+import type { CaseStudy, CaseStudyCategory } from '@/types'
+import { CASE_STUDY_CATEGORIES } from '@/types'
 
 const COLOR = '#00E5CC'
+
+function ClientBadge({ cs }: { cs: CaseStudy }) {
+  if (cs.client_anonymous) {
+    return (
+      <span
+        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider"
+        style={{
+          background: 'rgba(255,255,255,0.04)',
+          color: 'rgba(255,255,255,0.55)',
+          border: '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
+        Client confidentiel
+      </span>
+    )
+  }
+
+  if (!cs.client_name) return null
+
+  return (
+    <span
+      className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider"
+      style={{
+        background: 'rgba(255,255,255,0.04)',
+        color: 'rgba(255,255,255,0.7)',
+        border: '1px solid rgba(255,255,255,0.10)',
+      }}
+    >
+      {cs.client_logo && (
+        <Image
+          src={cs.client_logo}
+          alt={cs.client_name}
+          width={14}
+          height={14}
+          className="h-3.5 w-3.5 rounded-sm object-contain"
+        />
+      )}
+      <span>{cs.client_name}</span>
+    </span>
+  )
+}
+
+function MetricBadge({ cs, color }: { cs: CaseStudy; color: string }) {
+  if (!cs.headline_metric && !cs.time_saved) return null
+  const label = cs.headline_metric || cs.time_saved
+  return (
+    <div
+      className="inline-flex items-baseline gap-1 rounded-lg px-3 py-1.5 text-sm font-semibold"
+      style={{
+        background: `${color}14`,
+        color,
+        border: `1px solid ${color}33`,
+        boxShadow: `0 0 12px ${color}1A`,
+      }}
+    >
+      {label}
+    </div>
+  )
+}
+
+function CaseStudyCard({ cs }: { cs: CaseStudy }) {
+  const cat = CASE_STUDY_CATEGORIES[cs.category]
+  const color = cat?.color ?? COLOR
+
+  const inner = (
+    <GlassCard
+      color={color}
+      className="flex h-full flex-col p-6 transition-transform duration-200 hover:-translate-y-1"
+    >
+      {/* Header : metric + client */}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <MetricBadge cs={cs} color={color} />
+        <ClientBadge cs={cs} />
+      </div>
+
+      {/* Title */}
+      <h3 className="mb-3 text-base font-semibold leading-snug text-text-primary">
+        {cs.title}
+      </h3>
+
+      {/* Body */}
+      <p className="mb-4 flex-1 text-sm leading-relaxed text-text-secondary line-clamp-4">
+        {cs.context}
+      </p>
+
+      {/* Sub-automations preview (Rapid-Pub LinkedIn) */}
+      {cs.sub_automations && cs.sub_automations.length > 0 && (
+        <ul className="mb-4 space-y-1.5">
+          {cs.sub_automations.map((sa) => (
+            <li
+              key={sa.title}
+              className="flex items-start gap-2 text-xs text-text-secondary"
+            >
+              <span
+                className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full"
+                style={{ background: color }}
+              />
+              <span>
+                <span className="font-medium text-text-primary">{sa.title}</span>
+                <span className="ml-1 opacity-70">— {sa.time_saved}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Footer */}
+      {cs.type === 'detailed' ? (
+        <span className="mt-auto text-sm font-medium" style={{ color }}>
+          Lire le case study →
+        </span>
+      ) : (
+        <span className="mt-auto text-xs text-text-secondary opacity-60">
+          Automatisation livrée en production
+        </span>
+      )}
+    </GlassCard>
+  )
+
+  if (cs.type === 'detailed') {
+    return (
+      <Link href={`/travaux/${cs.slug}`} className="block h-full">
+        {inner}
+      </Link>
+    )
+  }
+
+  return <div className="h-full">{inner}</div>
+}
+
+function CategorySection({
+  category,
+  caseStudies,
+}: {
+  category: CaseStudyCategory
+  caseStudies: CaseStudy[]
+}) {
+  const cat = CASE_STUDY_CATEGORIES[category]
+  if (!cat || caseStudies.length === 0) return null
+
+  return (
+    <section className="mb-16">
+      <ScrollReveal>
+        <div className="mb-6 flex items-baseline gap-4">
+          <span
+            className="h-2 w-2 shrink-0 rounded-full"
+            style={{
+              background: cat.color,
+              boxShadow: `0 0 12px ${cat.color}`,
+            }}
+          />
+          <h2 className="text-2xl font-bold text-text-primary">{cat.label}</h2>
+          <span className="text-xs uppercase tracking-wider text-text-secondary opacity-60">
+            {caseStudies.length} réalisation{caseStudies.length > 1 ? 's' : ''}
+          </span>
+        </div>
+      </ScrollReveal>
+
+      <ScrollRevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {caseStudies.map((cs) => (
+          <ScrollRevealItem key={cs.id}>
+            <CaseStudyCard cs={cs} />
+          </ScrollRevealItem>
+        ))}
+      </ScrollRevealGroup>
+    </section>
+  )
+}
 
 export default function TravauxClient({ caseStudies }: { caseStudies: CaseStudy[] }) {
   const { setActiveColor } = useSectionColor()
@@ -21,6 +191,20 @@ export default function TravauxClient({ caseStudies }: { caseStudies: CaseStudy[
     return () => setActiveColor('#00E5CC')
   }, [setActiveColor])
 
+  // Group by category, ordered
+  const grouped = useMemo(() => {
+    const byCat = new Map<CaseStudyCategory, CaseStudy[]>()
+    for (const cs of caseStudies) {
+      const arr = byCat.get(cs.category) ?? []
+      arr.push(cs)
+      byCat.set(cs.category, arr)
+    }
+    return Array.from(byCat.entries()).sort(
+      (a, b) =>
+        CASE_STUDY_CATEGORIES[a[0]].order - CASE_STUDY_CATEGORIES[b[0]].order
+    )
+  }, [caseStudies])
+
   return (
     <div className="relative min-h-screen">
       <SectionBackground color={COLOR} />
@@ -28,109 +212,47 @@ export default function TravauxClient({ caseStudies }: { caseStudies: CaseStudy[
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-16">
         {/* ═══ Header ═══ */}
         <ScrollReveal>
-          <div className="mb-16 text-center">
+          <div className="mb-12 text-center">
             <NeonText as="h1" size="xl" color={COLOR} className="mb-4">
-              Mes réalisations
+              Le temps que je rends à mes clients
             </NeonText>
             <p className="mx-auto max-w-2xl text-lg text-text-secondary">
-              Projets concrets déployés pour mes clients — automatisations, applications, systèmes sur mesure.
+              Chaque automatisation ci-dessous est en production chez un client.
+              Le chiffre affiché, c&apos;est le temps libéré chaque semaine — ou
+              le gain mesuré dans l&apos;activité.
             </p>
           </div>
         </ScrollReveal>
 
-        {/* ═══ Grid de projets ═══ */}
-        <ScrollRevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {caseStudies.map((cs) => (
-            <ScrollRevealItem key={cs.id}>
-              {cs.type === 'detailed' ? (
-                /* Detailed case study — links to individual page */
-                <Link href={`/travaux/${cs.slug}`} className="block h-full">
-                  <GlassCard
-                    color={COLOR}
-                    className="relative flex h-full flex-col overflow-hidden p-0 transition-transform duration-200 hover:-translate-y-1"
-                  >
-                    {/* Project image */}
-                    {cs.image && (
-                      <div className="relative w-full bg-[#0d1120]" style={{ aspectRatio: '16 / 10' }}>
-                        <Image src={cs.image} alt={cs.title} fill className="object-contain" sizes="400px" />
-                      </div>
-                    )}
+        {/* ═══ Sections par fonction métier ═══ */}
+        {grouped.map(([category, items]) => (
+          <CategorySection
+            key={category}
+            category={category}
+            caseStudies={items}
+          />
+        ))}
 
-                    <div className="flex flex-1 flex-col p-6">
-                    {/* Badge */}
-                    <span
-                      className="mb-4 inline-block self-start rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
-                      style={{
-                        background: `${COLOR}1A`,
-                        color: COLOR,
-                        border: `1px solid ${COLOR}4D`,
-                        boxShadow: `0 0 8px ${COLOR}33`,
-                      }}
-                    >
-                      Case study
-                    </span>
-
-                    <h2 className="mb-3 text-lg font-semibold leading-snug text-text-primary">
-                      {cs.title}
-                    </h2>
-
-                    <p className="mb-4 flex-1 text-sm leading-relaxed text-text-secondary line-clamp-3">
-                      {cs.context}
-                    </p>
-
-                    {/* Tech pills */}
-                    <div className="mb-4 flex flex-wrap gap-2">
-                      {cs.tech.slice(0, 3).map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full px-2 py-0.5 text-xs"
-                          style={{
-                            background: 'rgba(255,255,255,0.06)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            color: 'var(--color-text-secondary)',
-                          }}
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    <span className="mt-auto text-sm font-medium" style={{ color: COLOR }}>
-                      Lire le case study →
-                    </span>
-                    </div>
-                  </GlassCard>
-                </Link>
-              ) : (
-                /* Mini case study — content displayed directly, no individual page */
-                <GlassCard
-                  color={COLOR}
-                  className="flex h-full flex-col p-6"
-                >
-                  {/* Mini badge */}
-                  <span
-                    className="mb-4 inline-block self-start rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
-                    style={{
-                      background: 'rgba(255,255,255,0.06)',
-                      color: 'var(--color-text-secondary)',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                    }}
-                  >
-                    Projet
-                  </span>
-
-                  <h2 className="mb-3 text-lg font-semibold leading-snug text-text-primary">
-                    {cs.title}
-                  </h2>
-
-                  <p className="flex-1 text-sm leading-relaxed text-text-secondary">
-                    {cs.context}
-                  </p>
-                </GlassCard>
-              )}
-            </ScrollRevealItem>
-          ))}
-        </ScrollRevealGroup>
+        {/* ═══ Note confidentialité ═══ */}
+        <ScrollReveal>
+          <div
+            className="mx-auto mt-8 max-w-2xl rounded-xl px-6 py-5 text-center text-sm text-text-secondary"
+            style={{
+              background: 'rgba(255,255,255,0.025)',
+              border: '1px solid rgba(255,255,255,0.06)',
+            }}
+          >
+            <p>
+              <span className="font-medium text-text-primary">
+                Pourquoi certains clients ne sont pas nommés ?
+              </span>{' '}
+              Plusieurs réalisations sont anonymisées pour respecter la
+              confidentialité de mes clients. Les chiffres et résultats restent
+              ceux mesurés en production. Je peux en parler plus en détail lors
+              d&apos;un échange.
+            </p>
+          </div>
+        </ScrollReveal>
       </div>
     </div>
   )

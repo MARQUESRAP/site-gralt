@@ -14,8 +14,9 @@ import ScrollReveal from '@/components/ui/ScrollReveal'
 import { ScrollRevealGroup, ScrollRevealItem } from '@/components/ui/ScrollReveal'
 import { useSectionColor } from '@/lib/SectionContext'
 import type { CaseStudy, Agent } from '@/types'
+import { CASE_STUDY_CATEGORIES } from '@/types'
 
-const COLOR = '#00E5CC'
+const DEFAULT_COLOR = '#00E5CC'
 
 interface Props {
   caseStudy: CaseStudy
@@ -26,10 +27,12 @@ export default function TravauxDetailClient({ caseStudy, linkedAgents }: Props) 
   const { setActiveColor } = useSectionColor()
   const [workflowsOpen, setWorkflowsOpen] = useState(false)
 
+  const COLOR = CASE_STUDY_CATEGORIES[caseStudy.category]?.color ?? DEFAULT_COLOR
+
   useEffect(() => {
     setActiveColor(COLOR)
     return () => setActiveColor('#00E5CC')
-  }, [setActiveColor])
+  }, [setActiveColor, COLOR])
 
   return (
     <div className="relative min-h-screen">
@@ -49,10 +52,61 @@ export default function TravauxDetailClient({ caseStudy, linkedAgents }: Props) 
 
         {/* ═══ Hero title ═══ */}
         <ScrollReveal>
-          <div className="mb-16 text-center">
-            <NeonText as="h1" size="xl" color={COLOR} className="mb-4">
+          <div className="mb-12 text-center">
+            <NeonText as="h1" size="xl" color={COLOR} className="mb-6">
               {caseStudy.title}
             </NeonText>
+
+            {/* Bandeau métrique + client */}
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {(caseStudy.headline_metric || caseStudy.time_saved) && (
+                <span
+                  className="inline-flex items-baseline gap-1.5 rounded-lg px-4 py-2 text-base font-semibold"
+                  style={{
+                    background: `${COLOR}14`,
+                    color: COLOR,
+                    border: `1px solid ${COLOR}33`,
+                    boxShadow: `0 0 14px ${COLOR}1A`,
+                  }}
+                >
+                  {caseStudy.headline_metric || caseStudy.time_saved}
+                </span>
+              )}
+
+              {caseStudy.client_anonymous ? (
+                <span
+                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium uppercase tracking-wider"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    color: 'rgba(255,255,255,0.55)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                  }}
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
+                  Client confidentiel
+                </span>
+              ) : caseStudy.client_name ? (
+                <span
+                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium uppercase tracking-wider"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    color: 'rgba(255,255,255,0.7)',
+                    border: '1px solid rgba(255,255,255,0.10)',
+                  }}
+                >
+                  {caseStudy.client_logo && (
+                    <Image
+                      src={caseStudy.client_logo}
+                      alt={caseStudy.client_name}
+                      width={16}
+                      height={16}
+                      className="h-4 w-4 rounded-sm object-contain"
+                    />
+                  )}
+                  <span>{caseStudy.client_name}</span>
+                </span>
+              ) : null}
+            </div>
           </div>
         </ScrollReveal>
 
@@ -148,6 +202,61 @@ export default function TravauxDetailClient({ caseStudy, linkedAgents }: Props) 
             </div>
           </div>
         </ScrollReveal>
+
+        {/* ═══ BLOC SUB-AUTOMATIONS — Modules ═══ */}
+        {caseStudy.sub_automations && caseStudy.sub_automations.length > 0 && (
+          <ScrollReveal>
+            <div className="mb-12">
+              <NeonText as="h2" size="md" color={COLOR} className="mb-2">
+                Les {caseStudy.sub_automations.length} automatisations intégrées
+              </NeonText>
+              <p className="mb-6 text-sm text-text-secondary">
+                Trois briques indépendantes assemblées dans une seule application sur mesure.
+              </p>
+              <ScrollRevealGroup className="flex flex-col gap-4">
+                {caseStudy.sub_automations.map((sa, i) => (
+                  <ScrollRevealItem key={sa.title}>
+                    <GlassCard color={COLOR} className="p-6">
+                      <div className="flex items-start gap-4">
+                        <div
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold"
+                          style={{
+                            background: `${COLOR}1A`,
+                            color: COLOR,
+                            border: `1px solid ${COLOR}4D`,
+                            boxShadow: `0 0 10px ${COLOR}33`,
+                          }}
+                        >
+                          {i + 1}
+                        </div>
+                        <div className="flex-1">
+                          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                            <h3 className="text-base font-semibold text-text-primary">
+                              {sa.title}
+                            </h3>
+                            <span
+                              className="rounded-md px-2 py-0.5 text-xs font-semibold"
+                              style={{
+                                background: `${COLOR}14`,
+                                color: COLOR,
+                                border: `1px solid ${COLOR}33`,
+                              }}
+                            >
+                              {sa.time_saved}
+                            </span>
+                          </div>
+                          <p className="text-sm leading-relaxed text-text-secondary">
+                            {sa.description}
+                          </p>
+                        </div>
+                      </div>
+                    </GlassCard>
+                  </ScrollRevealItem>
+                ))}
+              </ScrollRevealGroup>
+            </div>
+          </ScrollReveal>
+        )}
 
         {/* ═══ BLOC 5 — Résultats ═══ */}
         <ScrollReveal>

@@ -120,7 +120,7 @@ export const agents: Agent[] = [
     is_golden: false,
     color: '#00E5CC',
     image: '/agents/pablo.webp',
-    case_study_slug: 'jobsniper',
+    case_study_slug: null,
     agents_complementaires: ['eloa', 'zeus', 'lara'],
   },
   {
@@ -344,7 +344,7 @@ export const agents: Agent[] = [
     is_golden: false,
     color: '#B44AFF',
     image: '/agents/camila.webp',
-    case_study_slug: 'vedet',
+    case_study_slug: null,
     agents_complementaires: ['tiago', 'apollo', 'luna'],
   },
   {
@@ -899,7 +899,7 @@ export const agents: Agent[] = [
     is_golden: false,
     color: '#818CF8',
     image: '/agents/bruno.webp',
-    case_study_slug: 'ankes',
+    case_study_slug: null,
     agents_complementaires: ['mila', 'odin', 'matheus'],
   },
   {
@@ -932,7 +932,7 @@ export const agents: Agent[] = [
     is_golden: false,
     color: '#818CF8',
     image: '/agents/mila.webp',
-    case_study_slug: 'ankes',
+    case_study_slug: null,
     agents_complementaires: ['bruno', 'matheus', 'odin'],
   },
 
@@ -1186,13 +1186,66 @@ export const agents: Agent[] = [
 
 export const caseStudies: CaseStudy[] = [
   // ═══════════════════════════════════════════
-  // 1. RAPID CAMPAIGN
+  // PROSPECTION & VENTE
   // ═══════════════════════════════════════════
+
+  // ── 1. IABM — Prospection LinkedIn sur signaux d'attention
+  {
+    id: 'iabm-prospection-linkedin',
+    title: "Prospection LinkedIn sur signaux d'attention",
+    slug: 'iabm-prospection-linkedin',
+    type: 'mini',
+    category: 'prospection',
+    context: "Organisme de formation IA cherchant à toucher des décideurs sans bruler son compte LinkedIn ni envoyer du cold message générique.",
+    problem: "Identifier manuellement les bons signaux d'achat sur LinkedIn (publications cherchant un expert, commentaires sous ressources gratuites de la niche) prend des heures, et la fenêtre d'opportunité se referme en quelques heures.",
+    solution: "Veille en continu des signaux LinkedIn pertinents pour la cible, envoi de messages ciblés basés sur le signal exact détecté — pas de template générique. Quota maîtrisé à ~10 messages/jour pour rester sous les seuils LinkedIn.",
+    tech: ['n8n', 'Claude API', 'LinkedIn'],
+    results: [
+      '15h/semaine libérées sur la prospection LinkedIn',
+      '10 messages ciblés envoyés par jour',
+      "Taux de réponse 7% (vs 1-2% en cold message classique)",
+      "Conversation ouverte sur le signal exact qui a déclenché le message",
+    ],
+    agent_slugs: ['pablo', 'zeus'],
+    time_saved: '15h/semaine',
+    headline_metric: '15h/sem · 7% réponse',
+    client_name: 'IA Business Mastery',
+    client_logo: null,
+    client_anonymous: false,
+  },
+
+  // ── 2. IABM — Prospection mail ultra-personnalisée
+  {
+    id: 'iabm-prospection-mail',
+    title: "Prospection mail ultra-personnalisée sur cible",
+    slug: 'iabm-prospection-mail',
+    type: 'mini',
+    category: 'prospection',
+    context: "Sortir du cold email \"copier-coller\" qui ne convertit plus, en envoyant à chaque entreprise un message qui prouve qu'on a vraiment compris son contexte.",
+    problem: "Faire une vraie personnalisation pour 50 entreprises/jour exigeait des heures de recherche manuelle multi-sources et ne tenait pas dans la durée — donc en pratique, personne ne le faisait.",
+    solution: "Recherche automatique d'infos publiques sur chaque entreprise (site internet, societe.com, LinkedIn, mentions blogs/TV/radio), croisée pour repérer un angle précis. Le mail est ensuite rédigé à partir d'éléments concrets — un événement récent, une décision, un chiffre cité — jamais d'un template générique.",
+    tech: ['n8n', 'Claude API', 'Apify (scraping)', 'Brevo'],
+    results: [
+      '25h/semaine libérées sur la prospection mail',
+      '~50 mails ultra-personnalisés envoyés par jour ouvré',
+      'Taux d\'ouverture moyen 20%',
+      'Aucun template — chaque mail s\'appuie sur des infos précises de la cible',
+    ],
+    agent_slugs: ['pablo'],
+    time_saved: '25h/semaine',
+    headline_metric: '25h/sem · 20% ouverture',
+    client_name: 'IA Business Mastery',
+    client_logo: null,
+    client_anonymous: false,
+  },
+
+  // ── 3. RAPID CAMPAIGN — application sur mesure (Rapid Pub)
   {
     id: 'rapid-campaign',
-    title: 'Rapid Campaign — Application de campagnes emailing produit',
+    title: 'Rapid Campaign — Campagnes emailing produit',
     slug: 'rapid-campaign',
     type: 'detailed',
+    category: 'prospection',
     context: "Rapid-Pub, imprimeur en ligne basé à Comines (59), propose des centaines de produits publicitaires — flyers, goodies, bâches, cartes de visite. Le dirigeant souhaitait prospecter activement des entreprises susceptibles de commander, mais ne disposait d'aucun outil pour le faire à l'échelle.",
     problem: "Zéro campagne de prospection par mois — le dirigeant n'avait tout simplement pas le temps. Identifier manuellement les entreprises à cibler pour chaque produit prenait des heures, personnaliser les emails un par un était impossible à tenir dans la durée, et il n'existait aucun suivi des résultats : pas de tracking d'ouvertures ni de clics.",
     solution: "Application Next.js/Supabase/n8n avec un parcours « product-first » : sélection du produit à promouvoir, définition de la cible (ex : « 100 avocats à Paris »), scraping automatique des entreprises correspondantes (infos, adresses, emails), génération d'un email personnalisé selon le produit et la cible, envoi via Brevo avec relances automatiques, et dashboard de suivi avec KPIs — taux d'ouverture, taux de clic, réponses.",
@@ -1201,59 +1254,41 @@ export const caseStudies: CaseStudy[] = [
       'De 0 à 5 campagnes/mois',
       'Lancement d\'une campagne en moins de 20 minutes (vs impossible avant)',
       '~1 200 prospects contactés/mois',
-      'Taux d\'ouverture moyen de 38%, taux de clic 4,7%',
-      '14 nouveaux clients générés sur les 3 premiers mois',
+      'Capacité jusqu\'à 5 000 mails/mois, chacun unique',
+      'Auto-amélioration : la recette des campagnes qui performent est répliquée automatiquement',
     ],
     agent_slugs: ['pablo', 'marco'],
     image: '/projects/rapid-campaign.webp',
     workflows: [
       { image: '/projects/wf-rapid-campaign-scraping.webp', title: 'Scraping entreprises', description: 'Recherche et collecte les informations d\'entreprises ciblées via Google Maps.' },
     ],
+    time_saved: '~5h/campagne libérées',
+    headline_metric: '0 → 5 campagnes/mois',
+    client_name: 'Rapid Pub',
+    client_logo: '/projects/rapid-pub.webp',
+    client_anonymous: false,
   },
 
   // ═══════════════════════════════════════════
-  // 2. VEDET
+  // MARKETING & CONTENU
   // ═══════════════════════════════════════════
-  {
-    id: 'vedet',
-    title: 'Vedet — Pilotage automatique de contenu LinkedIn',
-    slug: 'vedet',
-    type: 'detailed',
-    context: "Outil développé en interne par Gralt pour maintenir une présence LinkedIn régulière et professionnelle sans y consacrer des heures chaque semaine.",
-    problem: "3 à 5h/semaine passées à réfléchir, rédiger et publier du contenu. Rythme de publication irrégulier : parfois 3 posts en une semaine, puis silence radio pendant 15 jours. Difficulté à rester dans les tendances du secteur tout en gardant un ton cohérent.",
-    solution: "8 workflows n8n interconnectés : veille automatique des tendances du secteur, génération de suggestions de posts chaque lundi via Claude API, validation en 15 minutes dans une interface Supabase, publication automatique chaque semaine à l'horaire optimal via l'API LinkedIn.",
-    tech: ['n8n (8 workflows)', 'Claude API', 'Supabase', 'Fal.ai'],
-    results: [
-      '3-5h/semaine réduites à 15 min de validation',
-      'Publication constante 1x/semaine depuis la mise en place (vs irrégulier avant)',
-      '+180% d\'impressions moyennes par post en 3 mois',
-      '+65% de visites de profil par rapport à la période précédente',
-      'Taux d\'engagement moyen de 4,2% (vs ~2% en moyenne sur LinkedIn)',
-    ],
-    agent_slugs: ['camila', 'apollo'],
-    image: '/projects/vedet.webp',
-    workflows: [
-      { image: '/projects/wf-vedet-publication.webp', title: 'Publication automatique', description: 'Publie automatiquement les posts approuvés sur LinkedIn aux horaires optimaux.' },
-      { image: '/projects/wf-vedet-veille.webp', title: 'Veille tendances', description: 'Analyse les tendances de la semaine passée pour générer des posts dans l\'air du temps.' },
-    ],
-  },
 
-  // ═══════════════════════════════════════════
-  // 3. RAPID PUB LINKEDIN
-  // ═══════════════════════════════════════════
+  // ── 4. RAPID-PUB LINKEDIN — application sur mesure intégrant 3 automatisations
   {
     id: 'rapid-pub-linkedin',
-    title: 'Rapid-Pub LinkedIn — Automatisation de contenu pour un imprimeur en ligne',
+    title: 'Rapid-Pub LinkedIn — 3 automatisations de contenu dans une seule application sur mesure',
     slug: 'rapid-pub-linkedin',
     type: 'detailed',
-    context: "Le dirigeant de Rapid-Pub, imprimeur en ligne à Comines (59), n'avait aucune présence sur LinkedIn. Pas de temps, pas de compétences en rédaction de contenu. L'objectif : créer et maintenir une présence professionnelle sans effort.",
-    problem: "Zéro publication LinkedIn — le dirigeant n'avait jamais posté. Pas de temps à consacrer à la création de contenu, pas de compétences en rédaction ou stratégie de contenu, et perte de visibilité face à des concurrents actifs sur les réseaux.",
-    solution: "Déploiement du même système que Vedet, adapté à l'univers goodies et objets publicitaires. 8 workflows n8n pour la génération de contenu ciblé sur le secteur de l'impression et du marketing physique. Le dirigeant valide les posts en moins de 2 minutes par semaine.",
-    tech: ['n8n (8 workflows)', 'Claude API', 'Supabase'],
+    category: 'contenu',
+    context: "Rapid-Pub, imprimeur en ligne à Comines (59). Le dirigeant n'avait aucune présence sur LinkedIn — pas de temps, pas de compétences en rédaction de contenu. L'objectif n'était pas \"poster quelques fois\", mais maintenir une vraie présence professionnelle dans la durée.",
+    problem: "6h/semaine étaient nécessaires pour publier correctement : trouver un angle, écrire, illustrer, programmer. Impossible à tenir pour un dirigeant qui pilote une imprimerie. Résultat avant : zéro publication. Pas de visibilité face à des concurrents actifs.",
+    solution: "Une application sur mesure qui assemble 3 automatisations distinctes dans une interface unique de validation : (1) génération de posts à partir des tendances secteur, (2) génération à la demande sur un sujet précis, (3) post produit avec photo retravaillée et fond contextuel via IA. Le dirigeant choisit le module dont il a besoin selon le moment, valide en quelques secondes, et tout se publie automatiquement.",
+    tech: ['Next.js', 'n8n (8 workflows)', 'Claude API', 'Supabase', 'Image generation API'],
     results: [
+      '6h/semaine réduites à ~1 min 30 par post',
       'De 0 à 2 posts/semaine publiés régulièrement',
-      'Moins de 2 min/semaine pour la validation',
       'Présence LinkedIn professionnelle créée à partir de zéro',
+      '3 modes de génération unifiés dans la même app',
     ],
     agent_slugs: ['camila'],
     image: '/projects/rapid-pub.webp',
@@ -1261,16 +1296,123 @@ export const caseStudies: CaseStudy[] = [
       { image: '/projects/wf-rapid-pub-generation.webp', title: 'Génération de posts', description: 'Génère des suggestions de posts basées sur les tendances du moment dans le secteur du client.' },
       { image: '/projects/wf-rapid-pub-publication.webp', title: 'Publication automatique', description: 'Récupère les posts programmés du jour et les publie automatiquement sur LinkedIn.' },
     ],
+    time_saved: '6h/semaine → 1 min 30',
+    headline_metric: '6h/sem → 1 min 30 · 0 → 2 posts/sem',
+    client_name: 'Rapid Pub',
+    client_logo: '/projects/rapid-pub.webp',
+    client_anonymous: false,
+    sub_automations: [
+      {
+        title: 'Génération sur les tendances du secteur',
+        description: "5 suggestions de posts par semaine alignées sur les plus grosses actualités de la semaine du secteur. Le système s'appuie sur la manière de communiquer souhaitée, les posts précédents, la cible — chaque post est conçu pour faire réagir, pas pour informer à plat.",
+        time_saved: '~3h/semaine (3 posts/sem × 1h)',
+      },
+      {
+        title: 'Génération à la demande',
+        description: "Le dirigeant entre un sujet précis qu'il veut aborder, l'agent fait sa recherche internet, consulte la base des posts déjà créés pour rester cohérent et pertinent, puis rédige le post dans sa voix habituelle.",
+        time_saved: '1h30/semaine (1 post/sem × 1h30)',
+      },
+      {
+        title: 'Post produit avec image retravaillée',
+        description: "Tous les produits sont dans une BDD interrogeable depuis l'app. Le dirigeant choisit le produit à mettre en avant, l'agent génère le post et, surtout, retravaille la photo brute du produit en l'intégrant dans un contexte visuel cohérent (un stylo posé sur un bureau, un Mac en arrière-plan, un cahier ouvert…).",
+        time_saved: '~1h/semaine (1 post produit/sem)',
+      },
+    ],
   },
 
   // ═══════════════════════════════════════════
-  // 4. BATIZY (SA Barbieux)
+  // DONNÉES & RÉFÉRENCEMENT
   // ═══════════════════════════════════════════
+
+  // ── 5. TIBIMAG — Ingestion automatique d'événements
+  {
+    id: 'tibimag-events',
+    title: "Alimentation automatique d'une plateforme d'événements",
+    slug: 'tibimag-events',
+    type: 'mini',
+    category: 'donnees',
+    context: "TibiMag, plateforme française qui recense les événements à venir (concerts, expositions, salons, festivals…). Le problème : sans flux régulier de nouveaux événements, la plateforme tournait à vide — référencement faible, peu de visiteurs, pubs invendables.",
+    problem: "Référencer manuellement un événement (chercher, récupérer infos et images, réécrire, mettre en page, créer la fiche en base) prend ~10 min. Pour atteindre ~300 nouveaux événements/mois, il fallait des dizaines d'heures que personne n'avait — donc personne ne le faisait.",
+    solution: "Recherche automatique sur sources d'open data (OpenAgenda principal), classification par catégorie via IA, dédup forte, écriture cohérente, insertion en base + upload des images, monitoring hebdomadaire et mensuel par email — le tout sans intervention humaine.",
+    tech: ['n8n', 'Claude API', 'MariaDB', 'OpenAgenda', 'Telegram (monitoring)'],
+    results: [
+      '12,5h/semaine libérées (75 événements/sem × 10 min)',
+      '~300 nouveaux événements/mois ingérés automatiquement',
+      'SEO démultiplié — la plateforme remonte sur de plus en plus de requêtes',
+      'Flux de visiteurs en hausse, pubs sur la plateforme valorisées',
+      'Récap hebdo + mensuel envoyé au dirigeant',
+    ],
+    agent_slugs: ['marco'],
+    time_saved: '12,5h/semaine',
+    headline_metric: '12,5h/sem · 300 events/mois',
+    client_name: 'TibiMag',
+    client_logo: null,
+    client_anonymous: false,
+  },
+
+  // ── 6. RAPID PUB — Digitalisation catalogue produit
+  {
+    id: 'rapid-pub-catalogue',
+    title: 'Digitalisation complète du catalogue produit',
+    slug: 'rapid-pub-catalogue',
+    type: 'mini',
+    category: 'donnees',
+    context: "Rapid-Pub, imprimeur en ligne. 700+ références produits sans aucune structure exploitable — c'était la brique manquante avant de pouvoir lancer la moindre automatisation commerciale ou marketing dessus.",
+    problem: "Sans catalogue structuré, impossible de cibler des campagnes par produit, impossible de générer des fiches, impossible de faire de la recherche. Toute automatisation commerciale ou contenu était bloquée à la racine.",
+    solution: "Digitalisation complète : 215 produits parents + 719 déclinaisons couleur, recherche full-text française optimisée, indexation sur attributs métier. Cette base est devenue la fondation de toutes les briques Rapid-Pub livrées ensuite (campagnes mailing, posts produits).",
+    tech: ['Site custom', 'Supabase', 'Indexation full-text'],
+    results: [
+      '215 produits + 719 déclinaisons digitalisés',
+      'Recherche full-text française instantanée',
+      'Socle technique réutilisé par toutes les automatisations Rapid-Pub livrées ensuite',
+    ],
+    agent_slugs: [],
+    time_saved: 'Brique fondatrice',
+    headline_metric: '700+ références · recherche full-text',
+    client_name: 'Rapid Pub',
+    client_logo: '/projects/rapid-pub.webp',
+    client_anonymous: false,
+  },
+
+  // ═══════════════════════════════════════════
+  // RH & RECRUTEMENT
+  // ═══════════════════════════════════════════
+
+  // ── 7. Tri candidats (anonyme)
+  {
+    id: 'sourcing-candidats',
+    title: 'Sourcing et tri automatique des candidats sur un poste',
+    slug: 'sourcing-candidats',
+    type: 'mini',
+    category: 'rh',
+    context: "Société qui recrute en continu sur des profils opérationnels. Le sourcing et le premier tri des candidats prenaient ~4h/jour à une personne dédiée.",
+    problem: "Lire chaque CV, croiser avec les critères du poste, ranker, contacter les meilleurs : un travail à plein temps qui mange la disponibilité sur les recrutements urgents. Beaucoup de bons profils passent à la trappe simplement parce que personne n'a eu le temps de les regarder.",
+    solution: "Sourcing automatique sur les sources pertinentes, scoring multi-critères selon la définition du poste, suggestion hebdomadaire des meilleurs candidats triés et qualifiés au recruteur — qui n'a plus qu'à décider qui contacter.",
+    tech: ['n8n', 'Claude API', 'Sources de recrutement'],
+    results: [
+      '20h/semaine libérées sur le sourcing et le tri (4h/jour × 5 jours)',
+      "Suggestion hebdomadaire des meilleurs candidats déjà rankés",
+      'Plus aucun bon profil ne passe à la trappe par manque de temps',
+    ],
+    agent_slugs: ['vitoria'],
+    time_saved: '20h/semaine',
+    headline_metric: '20h/sem · 4h/jour libérées',
+    client_name: null,
+    client_logo: null,
+    client_anonymous: true,
+  },
+
+  // ═══════════════════════════════════════════
+  // OPÉRATIONS & ADMIN
+  // ═══════════════════════════════════════════
+
+  // ── 8. BATIZY (SA Barbieux)
   {
     id: 'batizy',
-    title: 'Batizy — Application de suivi de chantier pour SA Barbieux',
+    title: 'Batizy — Application de suivi de chantier pour entreprise du BTP',
     slug: 'batizy',
     type: 'detailed',
+    category: 'operations',
     context: "SA Barbieux, entreprise familiale de couverture, plomberie et chauffage à Lille, présente depuis plus de 110 ans et aujourd'hui dirigée par la 4ème génération. 10 employés, des dizaines de chantiers en parallèle. Le suivi se faisait intégralement sur papier.",
     problem: "Suivi de chantier intégralement sur papier : rapports perdus, incomplets ou jamais remplis. Les chefs d'équipe sur le terrain n'avaient aucun outil numérique — tout remontait par téléphone ou de vive voix. Ruptures de stock non anticipées : les équipes arrivaient sur chantier sans le bon matériel. Le dirigeant passait des heures chaque semaine à compiler les informations manuellement. Aucune traçabilité photo des chantiers avant/après.",
     solution: "Application web progressive (PWA) React/Supabase, fonctionnant hors réseau grâce aux service workers — essentiel sur les chantiers où le réseau est limité. Photos avant/après, rapports de chantier guidés, suivi de stock en temps réel, panneau admin pour le dirigeant avec vue d'ensemble sur tous les chantiers en cours.",
@@ -1284,68 +1426,48 @@ export const caseStudies: CaseStudy[] = [
     ],
     agent_slugs: ['dino', 'odin'],
     image: '/projects/batizy.webp',
+    time_saved: '8h/semaine',
+    headline_metric: '8h/sem · 0 rupture de stock',
+    client_name: 'SA Barbieux',
+    client_logo: '/projects/sa-barbieux.png',
+    client_anonymous: false,
   },
 
-  // ═══════════════════════════════════════════
-  // 5. JOBSNIPER
-  // ═══════════════════════════════════════════
+  // ── 9. HL PISCINES — Classement docs par photo
   {
-    id: 'jobsniper',
-    title: "JobSniper — Prospection par détection d'offres d'emploi",
-    slug: 'jobsniper',
+    id: 'hl-piscines',
+    title: 'Classement automatique de documents par photo',
+    slug: 'hl-piscines',
     type: 'detailed',
-    context: "Système de prospection automatisée développé en interne par Gralt. Détecte des offres d'emploi qui révèlent un besoin automatisable chez l'entreprise, puis la contacte avec une proposition sur mesure et une page d'analyse personnalisée.",
-    problem: "La prospection manuelle par cold emailing classique a des taux de réponse très faibles (~1-2%). Identifier les entreprises qui ont un vrai besoin — et pas juste un email générique — prend des heures de recherche. Aucune personnalisation réelle des approches : même message envoyé à tout le monde. Impossible de scaler sans y passer tout son temps.",
-    solution: "8 workflows n8n orchestrés : SCRAPE (détection d'offres d'emploi révélant un besoin automatisable), QUALIF (qualification du potentiel de l'entreprise), ENRICH (enrichissement des données — taille, CA, contact décideur), MATCH (matching avec les agents Gralt pertinents), PAGE (génération d'une landing page d'analyse personnalisée sur audit.gralt.fr), MAIL (rédaction d'un email ultra-personnalisé), SEND (envoi), TRACK (suivi, relances et analytics).",
-    tech: ['n8n (8 workflows)', 'Claude API', 'Supabase', 'Next.js'],
+    category: 'operations',
+    context: "HL Piscines & Spas, pisciniste basé à Baisieux (59), spécialisé depuis 20 ans dans la conception, l'installation et l'entretien de piscines, spas et saunas. L'assistante commerciale croulait sous les dossiers papier accumulés au fil des années.",
+    problem: "Des milliers de dossiers papier stockés dans des armoires — bons de livraison, bons de commande, factures, informations clients. À chaque appel client (~3 par jour), l'assistante devait se lever physiquement, chercher le dossier dans l'armoire, pendant que le client attendait en ligne. 30 secondes à 3 minutes perdues par dossier. Retrouver un bon de livraison spécifique, le scanner, l'envoyer : une galère à chaque fois.",
+    solution: "Agent IA de classement automatique de documents. L'assistante prend une photo du document avec son téléphone. L'agent identifie automatiquement le type (bon de livraison, bon de commande, facture), extrait les informations clés, et classe le document dans le bon dossier Google Drive — trié par client et par type.",
+    tech: ['n8n', 'Claude API (Vision)', 'Google Drive API'],
     results: [
-      '~80 prospects qualifiés contactés/semaine',
-      'Taux de réponse de 6,4% (vs 1-2% en cold emailing classique)',
-      'Landing page personnalisée générée pour chaque prospect',
-      '5 rendez-vous qualifiés/mois en moyenne',
-      '2 clients signés sur le premier mois d\'exploitation',
-      'Système 100% automatisé de bout en bout',
+      '~6h/mois gagnées sur la recherche et le classement de documents',
+      'Classement d\'un document en quelques secondes (vs 3-5 min manuellement)',
+      'Tous les documents accessibles depuis n\'importe où — plus besoin d\'être au bureau',
+      '100% des documents classés correctement et retrouvables instantanément',
     ],
-    agent_slugs: ['pablo', 'zeus'],
-    image: '/projects/jobsniper.webp',
-    workflows: [
-      { image: '/projects/wf-jobsniper.webp', title: 'Enrichissement de données', description: 'Enrichit les données de contact d\'une entreprise à partir de ses informations publiques.' },
-    ],
+    agent_slugs: [],
+    image: '/projects/hl-piscines.png',
+    time_saved: '6h/mois',
+    headline_metric: '6h/mois · classement en quelques sec',
+    client_name: 'HL Piscines & Spas',
+    client_logo: '/projects/hl-piscines.png',
+    client_anonymous: false,
   },
 
-  // ═══════════════════════════════════════════
-  // 6. ANKÈS
-  // ═══════════════════════════════════════════
-  {
-    id: 'ankes',
-    title: "Ankès — Application de facturation pour artisans",
-    slug: 'ankes',
-    type: 'detailed',
-    context: "L'idée est née d'un constat personnel : un ami proche, artisan, passait ses dimanches sur Excel à faire ses factures au lieu de profiter de sa famille. Des heures volées à ses proches, chaque semaine, depuis 15 ans. Avec Jérémie Verwaerde, on a décidé de créer Ankès — une application de facturation pensée pour les artisans qui ne sont pas comptables.",
-    problem: "Des artisans qui passent leurs dimanches sur Excel à remplir des cellules, chercher des numéros de devis, relancer des clients manuellement. Des heures volées à leur famille et à leur métier. Des outils de facturation existants trop complexes pour des non-techniques. Des erreurs de mentions légales, des relances oubliées, des factures perdues dans des fichiers Excel.",
-    solution: "Application Next.js/Supabase ultra-intuitive : création de devis et factures en quelques clics, mentions légales automatiques et conformes, suivi des impayés en temps réel, relances automatiques, tableau de bord des chiffres clés de l'activité. Application complètement fonctionnelle développée en 16 heures.",
-    tech: ['Next.js', 'Supabase'],
-    results: [
-      'Devis et factures générés en quelques secondes (vs dizaines de minutes sur Excel)',
-      'Mentions légales toujours conformes automatiquement',
-      'Relances d\'impayés automatiques — plus rien ne passe entre les mailles',
-      'Tableau de bord clair et visuel des chiffres clés',
-      'Application livrée fonctionnelle en 16h de développement',
-    ],
-    agent_slugs: ['mila', 'bruno'],
-    image: '/projects/ankes.webp',
-  },
-
-  // ═══════════════════════════════════════════
-  // 7. APP PLANNING
-  // ═══════════════════════════════════════════
+  // ── 10. APP PLANNING — Stéphanie Ribier
   {
     id: 'planning-formatrice',
-    title: 'App Planning — Application de planning pour formatrice indépendante',
+    title: 'Application de planning multi-écoles avec réservation directe',
     slug: 'planning-formatrice',
     type: 'detailed',
+    category: 'operations',
     context: "Une formatrice indépendante en entrepreneuriat et management, intervenant dans 6 écoles de la métropole lilloise. Sa gestion de planning était un cauchemar quotidien entièrement géré par email.",
-    problem: "Planning géré par email entre 6 écoles différentes — des dizaines d'échanges pour caler un seul créneau. Double-bookings réguliers : deux écoles réservant le même créneau sans le savoir. Attente de réponses mails parfois pendant plusieurs jours avant de pouvoir confirmer. Rédaction manuelle de son propre planning à la main — peu professionnel et source d'erreurs. Chaque changement nécessitait de prévenir tout le monde individuellement.",
+    problem: "Planning géré par email entre 6 écoles différentes — des dizaines d'échanges pour caler un seul créneau. Double-bookings réguliers : deux écoles réservant le même créneau sans le savoir. Attente de réponses mails parfois pendant plusieurs jours avant de pouvoir confirmer. Rédaction manuelle de son propre planning à la main. Chaque changement nécessitait de prévenir tout le monde individuellement.",
     solution: "2 applications interconnectées Next.js/Supabase. App écoles : chaque école accède à ses créneaux disponibles et réserve directement. App formatrice : vue planning complète, export PDF en un clic, notifications automatiques. Intégration Google Calendar pour la synchronisation de tous les créneaux.",
     tech: ['Next.js', 'Supabase', 'Google Calendar API'],
     results: [
@@ -1354,56 +1476,14 @@ export const caseStudies: CaseStudy[] = [
       'Prise de rendez-vous en quelques clics au lieu de chaînes d\'emails',
       '~2h/semaine gagnées sur la gestion de planning',
       'Export PDF du planning en un clic',
-      'Image plus professionnelle auprès des écoles partenaires',
     ],
     agent_slugs: ['dino'],
     image: '/projects/planning-formatrice.webp',
-  },
-
-  // ═══════════════════════════════════════════
-  // 8. AGENT IA PISCINISTE (HL Piscines & Spas)
-  // ═══════════════════════════════════════════
-  {
-    id: 'hl-piscines',
-    title: 'Agent IA Pisciniste — Classement automatique de documents pour HL Piscines & Spas',
-    slug: 'hl-piscines',
-    type: 'detailed',
-    context: "HL Piscines & Spas, pisciniste basé à Baisieux (59), spécialisé depuis 20 ans dans la conception, l'installation et l'entretien de piscines, spas et saunas. L'assistante commerciale croulait sous les dossiers papier accumulés au fil des années.",
-    problem: "Des milliers de dossiers papier stockés dans des armoires — bons de livraison, bons de commande, factures, informations clients. À chaque appel client (~3 par jour), l'assistante devait se lever physiquement, chercher le dossier dans l'armoire, pendant que le client attendait en ligne. 30 secondes à 3 minutes perdues par dossier — soit jusqu'à ~1h30/mois rien que pour la recherche. Retrouver un bon de livraison spécifique, le scanner, l'envoyer : une galère à chaque fois. Des heures entières de frustration chaque semaine.",
-    solution: "Agent IA de classement automatique de documents. L'assistante prend une photo du document avec son téléphone. L'agent identifie automatiquement le type (bon de livraison, bon de commande, facture), extrait les informations clés, et classe le document dans le bon dossier Google Drive — trié par client et par type de document.",
-    tech: ['n8n', 'Claude API (Vision)', 'Google Drive API'],
-    results: [
-      '~6h/mois gagnées sur la recherche et le classement de documents',
-      'Classement d\'un document en quelques secondes (vs 3-5 min manuellement)',
-      'Tous les documents accessibles depuis n\'importe où — plus besoin d\'être au bureau',
-      'Fin de la frustration quotidienne pour l\'assistante commerciale',
-      '100% des documents classés correctement et retrouvables instantanément',
-    ],
-    agent_slugs: [],
-    image: '/projects/hl-piscines.png',
-  },
-
-  // ═══════════════════════════════════════════
-  // 9. SITE SA BARBIEUX
-  // ═══════════════════════════════════════════
-  {
-    id: 'site-sa-barbieux',
-    title: 'Site SA Barbieux — Création du site vitrine',
-    slug: 'site-sa-barbieux',
-    type: 'detailed',
-    context: "SA Barbieux, entreprise familiale de couverture, plomberie et chauffage à Lille depuis 1913, aujourd'hui dirigée par la 4ème génération. 10 employés, plus de 5 000 projets réalisés. Malgré 110 ans d'existence, l'entreprise n'avait aucune présence digitale.",
-    problem: "Aucun site internet — l'entreprise était totalement invisible en ligne malgré plus de 110 ans d'existence et une solide réputation locale. Pas de vitrine digitale pour présenter les services et rassurer les prospects. Perte de clients potentiels qui cherchent un artisan sur Google. Plaquette papier vieillissante comme seul support commercial.",
-    solution: "Création complète du site vitrine sabarbieux.fr : présentation des 3 pôles d'activité (couverture et zinguerie, plomberie et sanitaire, chauffage et climatisation), mise en avant de l'histoire familiale et des certifications (Qualibat RGE, garantie décennale), formulaire de demande de devis, optimisation SEO local sur les requêtes clés.",
-    tech: ['Next.js', 'Vercel'],
-    results: [
-      'Première présence digitale de l\'entreprise en 110 ans d\'existence',
-      'Site vitrine professionnel reflétant le sérieux et l\'ancienneté de l\'entreprise',
-      'Formulaire de devis accessible 24h/24',
-      'Référencement local sur les requêtes clés (couvreur Lille, plombier Lille...)',
-      'Base solide pour la suite de la digitalisation — l\'app Batizy a été développée dans la foulée',
-    ],
-    agent_slugs: [],
-    image: '/projects/sa-barbieux.png',
+    time_saved: '2h/semaine',
+    headline_metric: '2h/sem · 0 double-booking',
+    client_name: 'Stéphanie Ribier',
+    client_logo: null,
+    client_anonymous: false,
   },
 ]
 

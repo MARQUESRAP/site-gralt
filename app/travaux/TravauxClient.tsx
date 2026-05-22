@@ -14,46 +14,58 @@ import { CASE_STUDY_CATEGORIES } from '@/types'
 
 const COLOR = '#00E5CC'
 
-function ClientBadge({ cs }: { cs: CaseStudy }) {
+function ClientMark({ cs }: { cs: CaseStudy }) {
   if (cs.client_anonymous) {
     return (
       <span
-        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider"
+        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider"
         style={{
           background: 'rgba(255,255,255,0.04)',
           color: 'rgba(255,255,255,0.55)',
           border: '1px solid rgba(255,255,255,0.08)',
         }}
+        title="Client confidentiel"
       >
         <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
-        Client confidentiel
+        Confidentiel
       </span>
     )
   }
 
-  if (!cs.client_name) return null
-
-  return (
-    <span
-      className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider"
-      style={{
-        background: 'rgba(255,255,255,0.04)',
-        color: 'rgba(255,255,255,0.7)',
-        border: '1px solid rgba(255,255,255,0.10)',
-      }}
-    >
-      {cs.client_logo && (
+  if (cs.client_logo && cs.client_name) {
+    return (
+      <div
+        className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-white/[0.04]"
+        style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+        title={cs.client_name}
+      >
         <Image
           src={cs.client_logo}
           alt={cs.client_name}
-          width={14}
-          height={14}
-          className="h-3.5 w-3.5 rounded-sm object-contain"
+          fill
+          className="object-contain p-1"
+          sizes="40px"
         />
-      )}
-      <span>{cs.client_name}</span>
-    </span>
-  )
+      </div>
+    )
+  }
+
+  if (cs.client_name) {
+    return (
+      <span
+        className="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider"
+        style={{
+          background: 'rgba(255,255,255,0.04)',
+          color: 'rgba(255,255,255,0.7)',
+          border: '1px solid rgba(255,255,255,0.10)',
+        }}
+      >
+        {cs.client_name}
+      </span>
+    )
+  }
+
+  return null
 }
 
 function MetricBadge({ cs, color }: { cs: CaseStudy; color: string }) {
@@ -83,10 +95,14 @@ function CaseStudyCard({ cs }: { cs: CaseStudy }) {
       color={color}
       className="flex h-full flex-col p-6 transition-transform duration-200 hover:-translate-y-1"
     >
-      {/* Header : metric + client */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+      {/* Logo client en haut à droite */}
+      <div className="absolute right-4 top-4 z-10">
+        <ClientMark cs={cs} />
+      </div>
+
+      {/* Metric */}
+      <div className="mb-4 pr-14">
         <MetricBadge cs={cs} color={color} />
-        <ClientBadge cs={cs} />
       </div>
 
       {/* Title */}

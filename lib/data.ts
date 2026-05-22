@@ -1210,7 +1210,7 @@ export const caseStudies: CaseStudy[] = [
     time_saved: '15h/semaine',
     headline_metric: '15h/sem · 7% réponse',
     client_name: 'IA Business Mastery',
-    client_logo: null,
+    client_logo: '/projects/iabm.png',
     client_anonymous: false,
   },
 
@@ -1235,7 +1235,7 @@ export const caseStudies: CaseStudy[] = [
     time_saved: '25h/semaine',
     headline_metric: '25h/sem · 20% ouverture',
     client_name: 'IA Business Mastery',
-    client_logo: null,
+    client_logo: '/projects/iabm.png',
     client_anonymous: false,
   },
 
@@ -1265,7 +1265,7 @@ export const caseStudies: CaseStudy[] = [
     time_saved: '~5h/campagne libérées',
     headline_metric: '0 → 5 campagnes/mois',
     client_name: 'Rapid Pub',
-    client_logo: '/projects/rapid-pub.webp',
+    client_logo: '/projects/rapid-pub-logo.jpg',
     client_anonymous: false,
   },
 
@@ -1299,7 +1299,7 @@ export const caseStudies: CaseStudy[] = [
     time_saved: '6h/semaine → 1 min 30',
     headline_metric: '6h/sem → 1 min 30 · 0 → 2 posts/sem',
     client_name: 'Rapid Pub',
-    client_logo: '/projects/rapid-pub.webp',
+    client_logo: '/projects/rapid-pub-logo.jpg',
     client_anonymous: false,
     sub_automations: [
       {
@@ -1346,7 +1346,7 @@ export const caseStudies: CaseStudy[] = [
     time_saved: '12,5h/semaine',
     headline_metric: '12,5h/sem · 300 events/mois',
     client_name: 'TibiMag',
-    client_logo: null,
+    client_logo: '/projects/tibimag.webp',
     client_anonymous: false,
   },
 
@@ -1370,7 +1370,7 @@ export const caseStudies: CaseStudy[] = [
     time_saved: 'Brique fondatrice',
     headline_metric: '700+ références · recherche full-text',
     client_name: 'Rapid Pub',
-    client_logo: '/projects/rapid-pub.webp',
+    client_logo: '/projects/rapid-pub-logo.jpg',
     client_anonymous: false,
   },
 
@@ -1482,7 +1482,7 @@ export const caseStudies: CaseStudy[] = [
     time_saved: '2h/semaine',
     headline_metric: '2h/sem · 0 double-booking',
     client_name: 'Stéphanie Ribier',
-    client_logo: null,
+    client_logo: '/projects/stephanie-ribier.png',
     client_anonymous: false,
   },
 ]

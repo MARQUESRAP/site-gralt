@@ -85,25 +85,30 @@ export default function TravauxDetailClient({ caseStudy, linkedAgents }: Props) 
                   <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
                   Client confidentiel
                 </span>
+              ) : caseStudy.client_logo && caseStudy.client_name ? (
+                <div
+                  className="relative h-14 w-14 overflow-hidden rounded-lg bg-white/[0.04]"
+                  style={{ border: '1px solid rgba(255,255,255,0.10)' }}
+                  title={caseStudy.client_name}
+                >
+                  <Image
+                    src={caseStudy.client_logo}
+                    alt={caseStudy.client_name}
+                    fill
+                    className="object-contain p-1.5"
+                    sizes="56px"
+                  />
+                </div>
               ) : caseStudy.client_name ? (
                 <span
-                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium uppercase tracking-wider"
+                  className="inline-flex items-center rounded-full px-3 py-2 text-xs font-medium uppercase tracking-wider"
                   style={{
                     background: 'rgba(255,255,255,0.04)',
                     color: 'rgba(255,255,255,0.7)',
                     border: '1px solid rgba(255,255,255,0.10)',
                   }}
                 >
-                  {caseStudy.client_logo && (
-                    <Image
-                      src={caseStudy.client_logo}
-                      alt={caseStudy.client_name}
-                      width={16}
-                      height={16}
-                      className="h-4 w-4 rounded-sm object-contain"
-                    />
-                  )}
-                  <span>{caseStudy.client_name}</span>
+                  {caseStudy.client_name}
                 </span>
               ) : null}
             </div>

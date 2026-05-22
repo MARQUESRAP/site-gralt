@@ -73,19 +73,7 @@ export default function TravauxDetailClient({ caseStudy, linkedAgents }: Props) 
                 </span>
               )}
 
-              {caseStudy.client_anonymous ? (
-                <span
-                  className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium uppercase tracking-wider"
-                  style={{
-                    background: 'rgba(255,255,255,0.04)',
-                    color: 'rgba(255,255,255,0.55)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                  }}
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
-                  Client confidentiel
-                </span>
-              ) : caseStudy.client_logo && caseStudy.client_name ? (
+              {caseStudy.client_anonymous ? null : caseStudy.client_logo && caseStudy.client_name ? (
                 <div
                   className="relative h-14 w-14 overflow-hidden rounded-lg bg-white/[0.04]"
                   style={{ border: '1px solid rgba(255,255,255,0.10)' }}

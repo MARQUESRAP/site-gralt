@@ -15,22 +15,9 @@ import { CASE_STUDY_CATEGORIES } from '@/types'
 const COLOR = '#00E5CC'
 
 function ClientMark({ cs }: { cs: CaseStudy }) {
-  if (cs.client_anonymous) {
-    return (
-      <span
-        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider"
-        style={{
-          background: 'rgba(255,255,255,0.04)',
-          color: 'rgba(255,255,255,0.55)',
-          border: '1px solid rgba(255,255,255,0.08)',
-        }}
-        title="Client confidentiel"
-      >
-        <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
-        Confidentiel
-      </span>
-    )
-  }
+  // Pas de marque pour les clients anonymes — la confidentialité est
+  // mentionnée dans la note en bas de page.
+  if (cs.client_anonymous) return null
 
   if (cs.client_logo && cs.client_name) {
     return (
@@ -89,19 +76,22 @@ function MetricBadge({ cs, color }: { cs: CaseStudy; color: string }) {
 function CaseStudyCard({ cs }: { cs: CaseStudy }) {
   const cat = CASE_STUDY_CATEGORIES[cs.category]
   const color = cat?.color ?? COLOR
+  const hasClientMark = !cs.client_anonymous && cs.client_name
 
   const inner = (
     <GlassCard
       color={color}
       className="flex h-full flex-col p-6 transition-transform duration-200 hover:-translate-y-1"
     >
-      {/* Logo client en haut à droite */}
-      <div className="absolute right-4 top-4 z-10">
-        <ClientMark cs={cs} />
-      </div>
+      {/* Logo client en haut à droite (uniquement si client nommé) */}
+      {hasClientMark && (
+        <div className="absolute right-4 top-4 z-10">
+          <ClientMark cs={cs} />
+        </div>
+      )}
 
       {/* Metric */}
-      <div className="mb-4 pr-14">
+      <div className={`mb-4 ${hasClientMark ? 'pr-14' : ''}`}>
         <MetricBadge cs={cs} color={color} />
       </div>
 

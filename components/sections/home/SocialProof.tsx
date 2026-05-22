@@ -1,7 +1,7 @@
 const items = [
-  '~95h/semaine libérées chez mes clients',
-  '10 automatisations en production',
-  '6 entreprises clientes',
+  '~85h/semaine libérées chez mes clients',
+  '9 automatisations en production',
+  '6 clients accompagnés',
   '5 fonctions métier couvertes',
   '31 agents IA au catalogue',
   'Mis en place en 2-5 semaines',

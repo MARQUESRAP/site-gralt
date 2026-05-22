@@ -1000,7 +1000,7 @@ export const agents: Agent[] = [
     is_golden: false,
     color: '#4F46E5',
     image: '/agents/dino.webp',
-    case_study_slug: 'batizy',
+    case_study_slug: null,
     agents_complementaires: ['zoe', 'odin', 'mariana'],
   },
 
@@ -1036,7 +1036,7 @@ export const agents: Agent[] = [
     is_golden: true,
     color: '#F5C842',
     image: '/agents/odin.webp',
-    case_study_slug: 'batizy',
+    case_study_slug: null,
     agents_complementaires: ['bruno', 'mila', 'dino'],
   },
 
@@ -1406,34 +1406,7 @@ export const caseStudies: CaseStudy[] = [
   // OPÉRATIONS & ADMIN
   // ═══════════════════════════════════════════
 
-  // ── 8. BATIZY (SA Barbieux)
-  {
-    id: 'batizy',
-    title: 'Batizy — Application de suivi de chantier pour entreprise du BTP',
-    slug: 'batizy',
-    type: 'detailed',
-    category: 'operations',
-    context: "SA Barbieux, entreprise familiale de couverture, plomberie et chauffage à Lille, présente depuis plus de 110 ans et aujourd'hui dirigée par la 4ème génération. 10 employés, des dizaines de chantiers en parallèle. Le suivi se faisait intégralement sur papier.",
-    problem: "Suivi de chantier intégralement sur papier : rapports perdus, incomplets ou jamais remplis. Les chefs d'équipe sur le terrain n'avaient aucun outil numérique — tout remontait par téléphone ou de vive voix. Ruptures de stock non anticipées : les équipes arrivaient sur chantier sans le bon matériel. Le dirigeant passait des heures chaque semaine à compiler les informations manuellement. Aucune traçabilité photo des chantiers avant/après.",
-    solution: "Application web progressive (PWA) React/Supabase, fonctionnant hors réseau grâce aux service workers — essentiel sur les chantiers où le réseau est limité. Photos avant/après, rapports de chantier guidés, suivi de stock en temps réel, panneau admin pour le dirigeant avec vue d'ensemble sur tous les chantiers en cours.",
-    tech: ['React (PWA)', 'Supabase', 'Service Workers'],
-    results: [
-      '~8h/semaine d\'administratif en moins pour le dirigeant',
-      'Rapports de chantier remplis systématiquement (vs ~40% avant)',
-      'Zéro rupture de stock non anticipée depuis la mise en place',
-      'Fonctionne même sans réseau sur les chantiers',
-      '10 utilisateurs actifs au quotidien (toute l\'équipe)',
-    ],
-    agent_slugs: ['dino', 'odin'],
-    image: '/projects/batizy.webp',
-    time_saved: '8h/semaine',
-    headline_metric: '8h/sem · 0 rupture de stock',
-    client_name: 'SA Barbieux',
-    client_logo: '/projects/sa-barbieux.png',
-    client_anonymous: false,
-  },
-
-  // ── 9. HL PISCINES — Classement docs par photo
+  // ── 8. HL PISCINES — Classement docs par photo
   {
     id: 'hl-piscines',
     title: 'Classement automatique de documents par photo',
@@ -1455,11 +1428,11 @@ export const caseStudies: CaseStudy[] = [
     time_saved: '6h/mois',
     headline_metric: '6h/mois · classement en quelques sec',
     client_name: 'HL Piscines & Spas',
-    client_logo: '/projects/hl-piscines.png',
+    client_logo: '/projects/hl-piscines-logo.webp',
     client_anonymous: false,
   },
 
-  // ── 10. APP PLANNING — Stéphanie Ribier
+  // ── 9. APP PLANNING — Stéphanie Ribier
   {
     id: 'planning-formatrice',
     title: 'Application de planning multi-écoles avec réservation directe',

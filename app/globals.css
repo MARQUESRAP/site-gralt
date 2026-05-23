@@ -46,6 +46,14 @@
   --color-golden-bg: rgba(245, 200, 66, 0.15);
   --color-golden-deep: #D4A528;
 
+  /* Light surface tokens — for "respiration" sections on otherwise-dark pages */
+  --color-light-bg: #F5F2EC;            /* warm cream, tinted toward brand hue */
+  --color-light-bg-soft: #FAF8F3;       /* even softer for nested surfaces */
+  --color-light-card: #FFFFFF;          /* card surface (the only place pure white is allowed) */
+  --color-light-text-primary: #1A1825;  /* tinted near-black */
+  --color-light-text-secondary: #5B5A6B;/* warm gray */
+  --color-light-border: rgba(26, 24, 37, 0.08);
+
   /* Fonts */
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 

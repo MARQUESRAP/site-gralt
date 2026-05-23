@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import GlassCard from '@/components/ui/GlassCard'
 import NeonText from '@/components/ui/NeonText'
 import CTAButton from '@/components/ui/CTAButton'
@@ -15,7 +16,537 @@ import { useSectionColor } from '@/lib/SectionContext'
 const ACCENT = '#00E5CC'
 const GOLDEN = '#F5C842'
 
-// ─── Catégories ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// 1 — HERO (DARK, asymmetric: text left + live ledger placeholder right)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const LEDGER_ROWS = [
+  { color: '#00E5CC', task: 'Mail prospect envoyé',  source: 'IABM',         time: '09:42', icon: 'mail' as const },
+  { color: '#FB923C', task: 'CV trié, top 5 retenu',  source: 'Recrutement',  time: '09:38', icon: 'user' as const },
+  { color: '#B44AFF', task: 'Post LinkedIn publié',  source: 'Rapid Pub',    time: '08:30', icon: 'square' as const },
+  { color: '#818CF8', task: 'Facture relancée',      source: 'Comptabilité', time: '08:12', icon: 'doc' as const },
+  { color: '#22C55E', task: '47 événements ajoutés', source: 'TibiMag',      time: 'cette nuit', icon: 'chart' as const },
+]
+
+function LedgerIcon({ kind, color }: { kind: 'mail' | 'user' | 'square' | 'doc' | 'chart'; color: string }) {
+  const common = {
+    width: 14,
+    height: 14,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: color,
+    strokeWidth: 2,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true,
+  }
+  switch (kind) {
+    case 'mail':
+      return (<svg {...common}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>)
+    case 'user':
+      return (<svg {...common}><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 4-6 8-6s8 2 8 6" /></svg>)
+    case 'square':
+      return (<svg {...common}><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M8 12h8M8 8h6M8 16h4" /></svg>)
+    case 'doc':
+      return (<svg {...common}><path d="M6 3h9l4 4v14H6z" /><path d="M15 3v4h4" /></svg>)
+    case 'chart':
+      return (<svg {...common}><path d="M4 20V10M10 20V4M16 20v-8M22 20H2" /></svg>)
+  }
+}
+
+function HeroLedger() {
+  return (
+    <div className="relative">
+      {/* Soft halo behind */}
+      <div
+        className="absolute -inset-8 -z-10 rounded-[40px] opacity-60"
+        style={{
+          background: `radial-gradient(circle at 50% 30%, ${ACCENT}22, transparent 65%)`,
+          filter: 'blur(40px)',
+        }}
+        aria-hidden
+      />
+
+      <div
+        className="relative rounded-2xl p-5 sm:p-6"
+        style={{
+          background: 'rgba(19, 24, 41, 0.7)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: `1px solid ${ACCENT}28`,
+          boxShadow: `0 24px 60px rgba(0,0,0,0.45), 0 0 32px ${ACCENT}1A, inset 0 1px 0 ${ACCENT}1A`,
+        }}
+      >
+        {/* Header: live indicator */}
+        <div className="mb-5 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <span className="relative inline-flex h-2 w-2">
+              <span
+                className="absolute inline-flex h-full w-full animate-ping rounded-full"
+                style={{ background: ACCENT, opacity: 0.65 }}
+              />
+              <span
+                className="relative inline-flex h-2 w-2 rounded-full"
+                style={{ background: ACCENT, boxShadow: `0 0 10px ${ACCENT}` }}
+              />
+            </span>
+            <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-text-secondary">
+              Pendant que vous lisez
+            </span>
+          </div>
+          <span
+            className="rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider"
+            style={{
+              color: ACCENT,
+              background: `${ACCENT}14`,
+              border: `1px solid ${ACCENT}33`,
+            }}
+          >
+            Gralt · en direct
+          </span>
+        </div>
+
+        {/* Rows */}
+        <ul className="space-y-3">
+          {LEDGER_ROWS.map((row) => (
+            <li
+              key={row.task}
+              className="flex items-center gap-3 rounded-xl px-3 py-3"
+              style={{
+                background: 'rgba(255,255,255,0.025)',
+                border: '1px solid rgba(255,255,255,0.05)',
+              }}
+            >
+              <span
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+                style={{
+                  background: `${row.color}14`,
+                  border: `1px solid ${row.color}40`,
+                }}
+              >
+                <LedgerIcon kind={row.icon} color={row.color} />
+              </span>
+
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-medium text-text-primary">
+                  {row.task}
+                </div>
+                <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-text-secondary">
+                  <span className="opacity-80">{row.source}</span>
+                  <span className="opacity-40">·</span>
+                  <span className="opacity-60">{row.time}</span>
+                </div>
+              </div>
+
+              <span
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+                style={{
+                  background: 'rgba(34, 197, 94, 0.12)',
+                  border: '1px solid rgba(34, 197, 94, 0.35)',
+                }}
+                aria-label="Fait"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Footer line */}
+        <div
+          className="mt-5 flex items-center justify-between border-t pt-4 text-xs"
+          style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+        >
+          <span className="text-text-secondary">
+            <span style={{ color: ACCENT, fontWeight: 600 }}>+ 12 tâches</span>{' '}
+            automatisées aujourd&apos;hui
+          </span>
+          <span className="text-text-secondary opacity-60">
+            9 automatisations en production
+          </span>
+        </div>
+      </div>
+
+      {/* TODO: when Raphaël delivers the PNG, replace this entire component with:
+          <Image src="/automatisations-hero.png" alt="..." width={520} height={650} priority />
+       */}
+    </div>
+  )
+}
+
+function Hero() {
+  return (
+    <section className="relative px-6 pt-28 pb-20 md:pt-36 md:pb-24">
+      <SectionBackground color={ACCENT} secondaryColor="#B44AFF" />
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
+        <ScrollReveal>
+          <p
+            className="mb-6 text-xs font-medium uppercase tracking-[0.2em]"
+            style={{ color: `${ACCENT}cc` }}
+          >
+            Pour les PME 20-100 salariés
+          </p>
+          <NeonText as="h1" size="xl" color={ACCENT} className="mb-7 leading-[1.05]">
+            Toutes les tâches répétitives
+            <br />
+            que vous ne devriez plus faire.
+          </NeonText>
+          <p className="mb-9 max-w-xl text-lg leading-relaxed text-text-secondary">
+            Vous, votre équipe, vos collaborateurs : chaque semaine, des heures
+            partent à faire les mêmes gestes. On les automatise, sur mesure, pour
+            que vous récupériez ce temps.
+          </p>
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <CTAButton variant="primary" href="/rendez-vous" pulse>
+              Réserver un audit gratuit
+            </CTAButton>
+            <CTAButton variant="secondary" href="#benefices">
+              Voir des exemples concrets ↓
+            </CTAButton>
+          </div>
+
+          {/* Quick trust pills under CTAs */}
+          <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-text-secondary">
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E] shadow-[0_0_8px_#22C55E]" />
+              30 min, sans engagement
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E] shadow-[0_0_8px_#22C55E]" />
+              Pistes concrètes en sortie
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E] shadow-[0_0_8px_#22C55E]" />
+              100 % confidentiel
+            </span>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.15}>
+          <HeroLedger />
+        </ScrollReveal>
+      </div>
+    </section>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 2 — TRUST BAND (LIGHT strip with client logos)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const TRUST_LOGOS = [
+  { name: 'Rapid Pub',        src: '/projects/rapid-pub-logo.jpg' },
+  { name: 'HL Piscines',      src: '/projects/hl-piscines-logo.webp' },
+  { name: 'TibiMag',          src: '/projects/tibimag.webp' },
+  { name: 'IA Business Mastery', src: '/projects/iabm.png' },
+  { name: 'Stéphanie Ribier', src: '/projects/stephanie-ribier.png' },
+]
+
+function TrustBand() {
+  return (
+    <section
+      className="relative px-6 py-10"
+      style={{ background: 'var(--color-light-bg)' }}
+    >
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-between lg:gap-10">
+          <span
+            className="text-xs font-medium uppercase tracking-[0.2em]"
+            style={{ color: 'var(--color-light-text-secondary)' }}
+          >
+            Ils me font confiance
+          </span>
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-5 lg:gap-x-14">
+            {TRUST_LOGOS.map((logo) => (
+              <div
+                key={logo.name}
+                className="relative h-9 w-24 shrink-0 grayscale opacity-70 transition-all hover:opacity-100 hover:grayscale-0 sm:h-10 sm:w-28"
+                title={logo.name}
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.name}
+                  fill
+                  className="object-contain"
+                  sizes="120px"
+                />
+              </div>
+            ))}
+            <span
+              className="rounded-full px-3 py-1 text-xs font-medium"
+              style={{
+                color: 'var(--color-light-text-secondary)',
+                background: 'rgba(26, 24, 37, 0.05)',
+                border: '1px solid var(--color-light-border)',
+              }}
+              title="Client anonymisé"
+            >
+              + 1 client confidentiel
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 3 — BENEFITS (LIGHT cream): "Moins de tâches. Plus d'impact."
+// ═══════════════════════════════════════════════════════════════════════════
+
+type Benefit = {
+  id: string
+  title: string
+  description: string
+  color: string
+  icon: React.ReactNode
+}
+
+const BenefitIcon = (
+  path: string,
+  color: string,
+) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    {/* eslint-disable-next-line react/no-danger */}
+    <g dangerouslySetInnerHTML={{ __html: path }} />
+  </svg>
+)
+
+const BENEFITS: Benefit[] = [
+  {
+    id: 'time',
+    title: 'Gagnez du temps',
+    description:
+      'Récupérez plusieurs heures par semaine sur tout ce que vous ne devriez plus faire à la main.',
+    color: '#00E5CC',
+    icon: BenefitIcon('<circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />', '#00A892'),
+  },
+  {
+    id: 'errors',
+    title: "Moins d'erreurs",
+    description:
+      "Une automatisation ne fatigue pas. Pas d'oubli, pas de saisie en double, pas de relance manquée.",
+    color: '#22C55E',
+    icon: BenefitIcon('<path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-0.5 8-4 8-9V6z" /><path d="m9 12 2 2 4-4" />', '#15803D'),
+  },
+  {
+    id: 'focus',
+    title: 'Plus de focus',
+    description:
+      'Vous et votre équipe travaillez enfin sur ce qui demande votre vraie valeur ajoutée.',
+    color: '#B44AFF',
+    icon: BenefitIcon('<circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.5" fill="#7928CA" />', '#7928CA'),
+  },
+  {
+    id: 'measurable',
+    title: 'Résultats mesurables',
+    description:
+      'Chaque automatisation est livrée avec un gain chiffré. Vous savez ce que vous gagnez, semaine après semaine.',
+    color: '#818CF8',
+    icon: BenefitIcon('<path d="M3 3v18h18" /><path d="m7 15 4-5 3 3 5-7" />', '#4F46E5'),
+  },
+]
+
+function BenefitsSection() {
+  return (
+    <section
+      id="benefices"
+      className="relative px-6 py-24"
+      style={{ background: 'var(--color-light-bg)' }}
+    >
+      <div className="mx-auto max-w-6xl">
+        <ScrollReveal>
+          <div className="mb-14 max-w-2xl">
+            <h2
+              className="mb-4 text-4xl font-bold leading-tight md:text-5xl"
+              style={{ color: 'var(--color-light-text-primary)' }}
+            >
+              Moins de tâches.{' '}
+              <span style={{ color: '#00A892' }}>Plus d&apos;impact.</span>
+            </h2>
+            <p
+              className="text-lg leading-relaxed"
+              style={{ color: 'var(--color-light-text-secondary)' }}
+            >
+              Voilà ce que l&apos;automatisation change concrètement dans le
+              quotidien d&apos;un dirigeant et de son équipe.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <ScrollRevealGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {BENEFITS.map((b) => (
+            <ScrollRevealItem key={b.id}>
+              <div
+                className="flex h-full flex-col rounded-2xl p-6 transition-transform duration-200 hover:-translate-y-1"
+                style={{
+                  background: 'var(--color-light-card)',
+                  border: '1px solid var(--color-light-border)',
+                  boxShadow: '0 1px 2px rgba(26, 24, 37, 0.04), 0 8px 24px rgba(26, 24, 37, 0.06)',
+                }}
+              >
+                <span
+                  className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                  style={{
+                    background: `${b.color}14`,
+                  }}
+                >
+                  {b.icon}
+                </span>
+                <h3
+                  className="mb-2 text-lg font-bold"
+                  style={{ color: 'var(--color-light-text-primary)' }}
+                >
+                  {b.title}
+                </h3>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'var(--color-light-text-secondary)' }}
+                >
+                  {b.description}
+                </p>
+              </div>
+            </ScrollRevealItem>
+          ))}
+        </ScrollRevealGroup>
+      </div>
+    </section>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 4 — HOW IT WORKS (LIGHT soft): "Comment ça se passe"
+// ═══════════════════════════════════════════════════════════════════════════
+
+type Step = {
+  num: string
+  title: string
+  duration: string
+  description: string
+  color: string
+  icon: React.ReactNode
+}
+
+const STEPS: Step[] = [
+  {
+    num: '01',
+    title: 'On échange',
+    duration: '30 minutes',
+    description:
+      'Audit gratuit pour identifier 2-3 tâches qui valent le coup d’être automatisées dans votre activité.',
+    color: '#00E5CC',
+    icon: BenefitIcon('<path d="M21 12a8 8 0 1 1-3-6.3L21 4v6h-6" />', '#00A892'),
+  },
+  {
+    num: '02',
+    title: 'On conçoit',
+    duration: '1 à 2 semaines',
+    description:
+      'On construit l’automatisation sur mesure : workflow en arrière-plan, application avec interface, ou agent IA.',
+    color: '#B44AFF',
+    icon: BenefitIcon('<rect x="3" y="4" width="18" height="14" rx="2" /><path d="M3 8h18" /><circle cx="7" cy="6" r=".7" fill="#7928CA" /><circle cx="9.5" cy="6" r=".7" fill="#7928CA" />', '#7928CA'),
+  },
+  {
+    num: '03',
+    title: 'On déploie',
+    duration: '1 semaine',
+    description:
+      'On installe chez vous, on forme votre équipe en 30 minutes, on bascule sans coupure d’activité.',
+    color: '#FB923C',
+    icon: BenefitIcon('<path d="M5 14h14l-2 6H7z" /><path d="M12 14V4M8 8l4-4 4 4" />', '#C2410C'),
+  },
+  {
+    num: '04',
+    title: 'Ça tourne, vous gagnez',
+    duration: 'En continu',
+    description:
+      'Vous récupérez vos heures, semaine après semaine. On suit en maintenance, on ajuste si besoin.',
+    color: '#22C55E',
+    icon: BenefitIcon('<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />', '#15803D'),
+  },
+]
+
+function HowItWorksSection() {
+  return (
+    <section
+      className="relative px-6 py-24"
+      style={{ background: 'var(--color-light-bg-soft)' }}
+    >
+      <div className="mx-auto max-w-6xl">
+        <ScrollReveal>
+          <div className="mb-14 max-w-2xl">
+            <h2
+              className="mb-4 text-4xl font-bold leading-tight md:text-5xl"
+              style={{ color: 'var(--color-light-text-primary)' }}
+            >
+              Comment ça se passe
+            </h2>
+            <p
+              className="text-lg leading-relaxed"
+              style={{ color: 'var(--color-light-text-secondary)' }}
+            >
+              Quatre étapes simples, sans jargon technique, sans surprise.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <ScrollRevealGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((step) => (
+            <ScrollRevealItem key={step.num}>
+              <div
+                className="flex h-full flex-col rounded-2xl p-6"
+                style={{
+                  background: 'var(--color-light-card)',
+                  border: '1px solid var(--color-light-border)',
+                  boxShadow: '0 1px 2px rgba(26, 24, 37, 0.04), 0 6px 18px rgba(26, 24, 37, 0.05)',
+                }}
+              >
+                <div className="mb-4 flex items-center gap-3">
+                  <span
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl"
+                    style={{ background: `${step.color}14` }}
+                  >
+                    {step.icon}
+                  </span>
+                  <span
+                    className="text-xs font-bold tracking-wider"
+                    style={{ color: step.color }}
+                  >
+                    {step.num}
+                  </span>
+                </div>
+                <h3
+                  className="mb-1 text-lg font-bold"
+                  style={{ color: 'var(--color-light-text-primary)' }}
+                >
+                  {step.title}
+                </h3>
+                <span
+                  className="mb-3 text-xs font-medium uppercase tracking-wider"
+                  style={{ color: 'var(--color-light-text-secondary)', opacity: 0.7 }}
+                >
+                  {step.duration}
+                </span>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'var(--color-light-text-secondary)' }}
+                >
+                  {step.description}
+                </p>
+              </div>
+            </ScrollRevealItem>
+          ))}
+        </ScrollRevealGroup>
+      </div>
+    </section>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 5 — CATÉGORIES (DARK back): 1 feature + 4 compact
+// ═══════════════════════════════════════════════════════════════════════════
 
 type Category = {
   id: string
@@ -114,100 +645,25 @@ const CATEGORIES: Category[] = [
   },
 ]
 
-// ─── Section 1 — Hero (asymétrique gauche) ──────────────────────────────────
-
-function Hero() {
+function CheckMark({ color, small = false }: { color: string; small?: boolean }) {
+  const size = small ? 14 : 16
   return (
-    <section className="relative px-6 pt-28 pb-20 md:pt-36 md:pb-24">
-      <SectionBackground color={ACCENT} secondaryColor="#B44AFF" />
-      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-        <ScrollReveal>
-          <p
-            className="mb-6 text-xs font-medium uppercase tracking-[0.2em]"
-            style={{ color: `${ACCENT}cc` }}
-          >
-            Pour les PME 20-100 salariés
-          </p>
-          <NeonText as="h1" size="xl" color={ACCENT} className="mb-7 leading-[1.05]">
-            Toutes les tâches répétitives
-            <br />
-            que vous ne devriez plus faire.
-          </NeonText>
-          <p className="mb-9 max-w-xl text-lg leading-relaxed text-text-secondary">
-            Vous, votre équipe, vos collaborateurs : chaque semaine, des heures
-            partent à faire les mêmes gestes. On les automatise, sur mesure, pour
-            que vous récupériez ce temps.
-          </p>
-          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-            <CTAButton variant="primary" href="/rendez-vous" pulse>
-              Réserver un audit gratuit
-            </CTAButton>
-            <CTAButton variant="secondary" href="#categories">
-              Voir des exemples concrets ↓
-            </CTAButton>
-          </div>
-        </ScrollReveal>
-
-        {/* Visual: ledger of running automations (asymmetric counterweight) */}
-        <ScrollReveal delay={0.15}>
-          <HeroLedger />
-        </ScrollReveal>
-      </div>
-    </section>
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mt-1 shrink-0"
+      aria-hidden
+    >
+      <path d="M5 13l4 4L19 7" />
+    </svg>
   )
 }
-
-function HeroLedger() {
-  const lines = [
-    { color: '#00E5CC', task: 'Mail prospect envoyé', meta: 'IABM · à 09:42' },
-    { color: '#B44AFF', task: 'Post LinkedIn publié', meta: 'Rapid Pub · à 08:30' },
-    { color: '#FB923C', task: '32 CV classés', meta: 'Recrutement · à 07:15' },
-    { color: '#22C55E', task: '300 événements ajoutés', meta: 'TibiMag · cette nuit' },
-    { color: '#818CF8', task: 'Document classé', meta: 'HL Piscines · à 23:04' },
-  ]
-  return (
-    <div className="relative">
-      <p
-        className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-text-secondary"
-        style={{ opacity: 0.7 }}
-      >
-        Pendant que vous lisez cette page
-      </p>
-      <GlassCard color={ACCENT} className="p-5">
-        <ul className="space-y-3.5">
-          {lines.map((l) => (
-            <li key={l.task} className="flex items-start gap-3">
-              <span
-                className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full"
-                style={{
-                  background: l.color,
-                  boxShadow: `0 0 8px ${l.color}, 0 0 14px ${l.color}55`,
-                }}
-                aria-hidden
-              />
-              <span className="flex-1">
-                <span className="block text-sm font-medium text-text-primary">
-                  {l.task}
-                </span>
-                <span className="block text-xs text-text-secondary opacity-70">
-                  {l.meta}
-                </span>
-              </span>
-            </li>
-          ))}
-        </ul>
-        <div
-          className="mt-4 border-t pt-3 text-xs text-text-secondary"
-          style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-        >
-          9 automatisations comme ça, en production.
-        </div>
-      </GlassCard>
-    </div>
-  )
-}
-
-// ─── Section 2 — Catégories (1 feature + 4 secondary) ───────────────────────
 
 function FeatureCategoryCard({ cat }: { cat: Category }) {
   return (
@@ -217,10 +673,7 @@ function FeatureCategoryCard({ cat }: { cat: Category }) {
           <div className="mb-5 flex items-baseline gap-3">
             <span
               className="h-2.5 w-2.5 shrink-0 rounded-full"
-              style={{
-                background: cat.color,
-                boxShadow: `0 0 10px ${cat.color}`,
-              }}
+              style={{ background: cat.color, boxShadow: `0 0 10px ${cat.color}` }}
               aria-hidden
             />
             <h3 className="text-2xl font-bold text-text-primary md:text-3xl">
@@ -239,10 +692,7 @@ function FeatureCategoryCard({ cat }: { cat: Category }) {
             </div>
             <div
               className="text-2xl font-bold"
-              style={{
-                color: cat.color,
-                textShadow: `0 0 12px ${cat.color}55`,
-              }}
+              style={{ color: cat.color, textShadow: `0 0 12px ${cat.color}55` }}
             >
               {cat.timeSaved}
             </div>
@@ -278,10 +728,7 @@ function CompactCategoryCard({ cat }: { cat: Category }) {
       <div className="mb-4 flex items-baseline gap-2.5">
         <span
           className="h-2 w-2 shrink-0 rounded-full"
-          style={{
-            background: cat.color,
-            boxShadow: `0 0 8px ${cat.color}`,
-          }}
+          style={{ background: cat.color, boxShadow: `0 0 8px ${cat.color}` }}
           aria-hidden
         />
         <h3 className="text-lg font-bold text-text-primary">{cat.label}</h3>
@@ -309,10 +756,7 @@ function CompactCategoryCard({ cat }: { cat: Category }) {
         )}
       </ul>
       <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-2">
-        <span
-          className="text-xs font-semibold"
-          style={{ color: cat.color }}
-        >
+        <span className="text-xs font-semibold" style={{ color: cat.color }}>
           {cat.timeSaved}
         </span>
         <Link
@@ -327,43 +771,21 @@ function CompactCategoryCard({ cat }: { cat: Category }) {
   )
 }
 
-function CheckMark({ color, small = false }: { color: string; small?: boolean }) {
-  const size = small ? 14 : 16
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="mt-1 shrink-0"
-      aria-hidden
-    >
-      <path d="M5 13l4 4L19 7" />
-    </svg>
-  )
-}
-
 function Categories() {
   const [feature, ...rest] = CATEGORIES
   return (
     <section id="categories" className="relative px-6 py-28">
       <div className="relative z-10 mx-auto max-w-6xl">
         <ScrollReveal>
-          <div className="mb-14 flex flex-col items-start gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <NeonText as="h2" size="lg" className="mb-3">
-                Ce qu&apos;on automatise, concrètement
-              </NeonText>
-              <p className="max-w-2xl text-text-secondary">
-                Cinq familles de tâches que des dirigeants comme vous faisaient à la
-                main jusqu&apos;à ce qu&apos;on les automatise. Vous vous reconnaissez
-                probablement dans au moins l&apos;une d&apos;elles.
-              </p>
-            </div>
+          <div className="mb-14">
+            <NeonText as="h2" size="lg" className="mb-3">
+              Ce qu&apos;on automatise, concrètement
+            </NeonText>
+            <p className="max-w-2xl text-text-secondary">
+              Cinq familles de tâches que des dirigeants comme vous faisaient à la
+              main jusqu&apos;à ce qu&apos;on les automatise. Vous vous reconnaissez
+              probablement dans au moins l&apos;une d&apos;elles.
+            </p>
           </div>
         </ScrollReveal>
 
@@ -385,7 +807,9 @@ function Categories() {
   )
 }
 
-// ─── Section 3 — 3 formats ──────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// 6 — 3 FORMATS (DARK)
+// ═══════════════════════════════════════════════════════════════════════════
 
 type Format = {
   id: string
@@ -533,15 +957,9 @@ function FormatCard({ format, lifted }: { format: Format; lifted?: boolean }) {
       className={`flex h-full flex-col p-6 ${lifted ? 'lg:-translate-y-4 lg:p-7' : ''}`}
     >
       <h3 className="mb-1 text-lg font-bold text-text-primary">{format.label}</h3>
-      <div
-        className="mb-5 h-px w-full"
-        style={{ background: `${format.color}33` }}
-      />
+      <div className="mb-5 h-px w-full" style={{ background: `${format.color}33` }} />
 
-      <div
-        className="mb-5 rounded-lg p-4"
-        style={{ background: `${format.color}08` }}
-      >
+      <div className="mb-5 rounded-lg p-4" style={{ background: `${format.color}08` }}>
         {format.schema}
       </div>
 
@@ -597,7 +1015,8 @@ function Formats() {
         </ScrollRevealGroup>
 
         <ScrollReveal delay={0.2}>
-          <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t pt-6 sm:flex-row sm:items-center"
+          <div
+            className="mt-12 flex flex-col items-start justify-between gap-4 border-t pt-6 sm:flex-row sm:items-center"
             style={{ borderColor: 'rgba(255,255,255,0.08)' }}
           >
             <p className="max-w-md text-sm text-text-secondary">
@@ -614,7 +1033,9 @@ function Formats() {
   )
 }
 
-// ─── Section 4 — En action (editorial, pas hero-metric) ─────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// 7 — EN ACTION (DARK, editorial 85h)
+// ═══════════════════════════════════════════════════════════════════════════
 
 function InAction() {
   return (
@@ -622,7 +1043,6 @@ function InAction() {
       <div className="relative z-10 mx-auto max-w-6xl">
         <ScrollReveal>
           <div className="grid gap-10 lg:grid-cols-[auto_1fr] lg:items-baseline lg:gap-16">
-            {/* Typographic feature: oversize number */}
             <div>
               <div
                 className="font-bold leading-none"
@@ -665,7 +1085,9 @@ function InAction() {
   )
 }
 
-// ─── Section 5 — Pour aller plus loin (catalogue agents) ────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// 8 — POUR ALLER PLUS LOIN (DARK + GOLDEN)
+// ═══════════════════════════════════════════════════════════════════════════
 
 function GoFurther() {
   return (
@@ -733,7 +1155,9 @@ function GoFurther() {
   )
 }
 
-// ─── Section 6 — CTA final ──────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// 9 — FINAL CTA (DARK)
+// ═══════════════════════════════════════════════════════════════════════════
 
 function FinalCTA() {
   return (
@@ -763,7 +1187,9 @@ function FinalCTA() {
   )
 }
 
-// ─── Page principale ────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// Page principale — assemblage
+// ═══════════════════════════════════════════════════════════════════════════
 
 export default function AutomatisationsClient() {
   const { setActiveColor } = useSectionColor()
@@ -776,6 +1202,9 @@ export default function AutomatisationsClient() {
   return (
     <div className="relative min-h-screen">
       <Hero />
+      <TrustBand />
+      <BenefitsSection />
+      <HowItWorksSection />
       <Categories />
       <Formats />
       <InAction />

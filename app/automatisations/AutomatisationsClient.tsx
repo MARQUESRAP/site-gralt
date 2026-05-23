@@ -20,158 +20,28 @@ const GOLDEN = '#F5C842'
 // 1 — HERO (DARK, asymmetric: text left + live ledger placeholder right)
 // ═══════════════════════════════════════════════════════════════════════════
 
-const LEDGER_ROWS = [
-  { color: '#00E5CC', task: 'Mail prospect envoyé',  source: 'IABM',         time: '09:42', icon: 'mail' as const },
-  { color: '#FB923C', task: 'CV trié, top 5 retenu',  source: 'Recrutement',  time: '09:38', icon: 'user' as const },
-  { color: '#B44AFF', task: 'Post LinkedIn publié',  source: 'Rapid Pub',    time: '08:30', icon: 'square' as const },
-  { color: '#818CF8', task: 'Facture relancée',      source: 'Comptabilité', time: '08:12', icon: 'doc' as const },
-  { color: '#22C55E', task: '47 événements ajoutés', source: 'TibiMag',      time: 'cette nuit', icon: 'chart' as const },
-]
-
-function LedgerIcon({ kind, color }: { kind: 'mail' | 'user' | 'square' | 'doc' | 'chart'; color: string }) {
-  const common = {
-    width: 14,
-    height: 14,
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: color,
-    strokeWidth: 2,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-    'aria-hidden': true,
-  }
-  switch (kind) {
-    case 'mail':
-      return (<svg {...common}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>)
-    case 'user':
-      return (<svg {...common}><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 4-6 8-6s8 2 8 6" /></svg>)
-    case 'square':
-      return (<svg {...common}><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M8 12h8M8 8h6M8 16h4" /></svg>)
-    case 'doc':
-      return (<svg {...common}><path d="M6 3h9l4 4v14H6z" /><path d="M15 3v4h4" /></svg>)
-    case 'chart':
-      return (<svg {...common}><path d="M4 20V10M10 20V4M16 20v-8M22 20H2" /></svg>)
-  }
-}
-
-function HeroLedger() {
+function HeroSchema() {
   return (
     <div className="relative">
-      {/* Soft halo behind */}
+      {/* Soft halo behind the image to fuse with the dark page background */}
       <div
-        className="absolute -inset-8 -z-10 rounded-[40px] opacity-60"
+        className="absolute -inset-10 -z-10 rounded-[48px] opacity-70"
         style={{
-          background: `radial-gradient(circle at 50% 30%, ${ACCENT}22, transparent 65%)`,
-          filter: 'blur(40px)',
+          background: `radial-gradient(circle at 50% 45%, ${ACCENT}22, transparent 70%)`,
+          filter: 'blur(48px)',
         }}
         aria-hidden
       />
 
-      <div
-        className="relative rounded-2xl p-5 sm:p-6"
-        style={{
-          background: 'rgba(19, 24, 41, 0.7)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
-          border: `1px solid ${ACCENT}28`,
-          boxShadow: `0 24px 60px rgba(0,0,0,0.45), 0 0 32px ${ACCENT}1A, inset 0 1px 0 ${ACCENT}1A`,
-        }}
-      >
-        {/* Header: live indicator */}
-        <div className="mb-5 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="relative inline-flex h-2 w-2">
-              <span
-                className="absolute inline-flex h-full w-full animate-ping rounded-full"
-                style={{ background: ACCENT, opacity: 0.65 }}
-              />
-              <span
-                className="relative inline-flex h-2 w-2 rounded-full"
-                style={{ background: ACCENT, boxShadow: `0 0 10px ${ACCENT}` }}
-              />
-            </span>
-            <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-text-secondary">
-              Pendant que vous lisez
-            </span>
-          </div>
-          <span
-            className="rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider"
-            style={{
-              color: ACCENT,
-              background: `${ACCENT}14`,
-              border: `1px solid ${ACCENT}33`,
-            }}
-          >
-            Gralt · en direct
-          </span>
-        </div>
-
-        {/* Rows */}
-        <ul className="space-y-3">
-          {LEDGER_ROWS.map((row) => (
-            <li
-              key={row.task}
-              className="flex items-center gap-3 rounded-xl px-3 py-3"
-              style={{
-                background: 'rgba(255,255,255,0.025)',
-                border: '1px solid rgba(255,255,255,0.05)',
-              }}
-            >
-              <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-                style={{
-                  background: `${row.color}14`,
-                  border: `1px solid ${row.color}40`,
-                }}
-              >
-                <LedgerIcon kind={row.icon} color={row.color} />
-              </span>
-
-              <div className="min-w-0 flex-1">
-                <div className="truncate text-sm font-medium text-text-primary">
-                  {row.task}
-                </div>
-                <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-text-secondary">
-                  <span className="opacity-80">{row.source}</span>
-                  <span className="opacity-40">·</span>
-                  <span className="opacity-60">{row.time}</span>
-                </div>
-              </div>
-
-              <span
-                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-                style={{
-                  background: 'rgba(34, 197, 94, 0.12)',
-                  border: '1px solid rgba(34, 197, 94, 0.35)',
-                }}
-                aria-label="Fait"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
-              </span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Footer line */}
-        <div
-          className="mt-5 flex items-center justify-between border-t pt-4 text-xs"
-          style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-        >
-          <span className="text-text-secondary">
-            <span style={{ color: ACCENT, fontWeight: 600 }}>+ 12 tâches</span>{' '}
-            automatisées aujourd&apos;hui
-          </span>
-          <span className="text-text-secondary opacity-60">
-            9 automatisations en production
-          </span>
-        </div>
-      </div>
-
-      {/* TODO: when Raphaël delivers the PNG, replace this entire component with:
-          <Image src="/automatisations-hero.png" alt="..." width={520} height={650} priority />
-       */}
+      <Image
+        src="/automatisations-hero.png"
+        alt="Schéma : sources de tâches (formulaire, email, fichier) traitées par l'automatisation Gralt, qui produit des actions automatiques (email envoyé, post LinkedIn publié, fiche CRM mise à jour, document classé, notification équipe)"
+        width={1536}
+        height={1024}
+        priority
+        sizes="(min-width: 1024px) 600px, 100vw"
+        className="h-auto w-full rounded-2xl"
+      />
     </div>
   )
 }
@@ -180,7 +50,7 @@ function Hero() {
   return (
     <section className="relative px-6 pt-28 pb-20 md:pt-36 md:pb-24">
       <SectionBackground color={ACCENT} secondaryColor="#B44AFF" />
-      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-14">
         <ScrollReveal>
           <p
             className="mb-6 text-xs font-medium uppercase tracking-[0.2em]"
@@ -225,7 +95,7 @@ function Hero() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.15}>
-          <HeroLedger />
+          <HeroSchema />
         </ScrollReveal>
       </div>
     </section>

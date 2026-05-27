@@ -15,29 +15,14 @@ const sections = [
   { name: 'Analytics', slug: 'analyse-pilotage', color: '#F472B6' },
 ]
 
-// ─── Wordmark with crown (Gralt v3, used on home) ────────────────────────────
+// ─── Wordmark (Gralt v3, used on home) — placeholder text, logo asset à venir ─
 function GraltWordmarkYellow() {
   return (
-    <span className="inline-flex items-end gap-1.5">
-      <svg
-        width="22"
-        height="18"
-        viewBox="0 0 24 18"
-        fill="#F5D547"
-        aria-hidden
-        className="mb-0.5"
-      >
-        <path d="M2 16h20l-2-12-5 4-3-6-3 6-5-4z" />
-        <circle cx="2" cy="3" r="1.5" />
-        <circle cx="12" cy="1.5" r="1.5" />
-        <circle cx="22" cy="3" r="1.5" />
-      </svg>
-      <span
-        className="text-2xl font-extrabold tracking-tight"
-        style={{ color: '#F5D547', letterSpacing: '-0.02em' }}
-      >
-        GRÄLT
-      </span>
+    <span
+      className="text-2xl font-extrabold tracking-tight"
+      style={{ color: '#F5D547', letterSpacing: '-0.02em' }}
+    >
+      GRÄLT
     </span>
   )
 }

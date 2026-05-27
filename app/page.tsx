@@ -1,15 +1,13 @@
 import type { Metadata } from 'next'
-import { getSections, getDetailedCaseStudies } from '@/lib/data'
-import HeroSection from '@/components/sections/home/HeroSection'
+import HomeClient from './HomeClient'
 
 export const metadata: Metadata = {
-  title: 'Gralt — 31 agents IA au service de votre entreprise',
+  title: 'Gralt — Récupérez 5 à 30 heures par semaine grâce à l\'automatisation',
   description:
-    'Prospection, marketing, support, recrutement, admin, pilotage. 31 agents IA sur mesure pour les entreprises en croissance.',
+    "Nous automatisons les tâches répétitives des PME pour que les dirigeants se concentrent sur la croissance. Audit gratuit de 30 minutes pour identifier ce que vous pouvez automatiser.",
   alternates: { canonical: 'https://gralt.fr' },
 }
 
-// JSON-LD WebSite with SearchAction (homepage only)
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -22,35 +20,14 @@ const websiteJsonLd = {
   },
 }
 
-import SectionsGrid from '@/components/sections/home/SectionsGrid'
-import SocialProof from '@/components/sections/home/SocialProof'
-import CaseStudiesPreview from '@/components/sections/home/CaseStudiesPreview'
-import HowItWorks from '@/components/sections/home/HowItWorks'
-import FinalCTA from '@/components/sections/home/FinalCTA'
-
 export default function HomePage() {
-  const sections = getSections()
-  const sectionCards = sections.map((s) => ({
-    name: s.name,
-    slug: s.slug,
-    color: s.color_primary,
-    description: s.description,
-    sceneImage: `/sections/${s.slug}.webp`,
-  }))
-  const caseStudies = getDetailedCaseStudies()
-
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
-      <HeroSection />
-      <SectionsGrid sections={sectionCards} />
-      <SocialProof />
-      <CaseStudiesPreview caseStudies={caseStudies} />
-      <HowItWorks />
-      <FinalCTA />
+      <HomeClient />
     </>
   )
 }

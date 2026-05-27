@@ -54,6 +54,19 @@
   --color-light-text-secondary: #5B5A6B;/* warm gray */
   --color-light-border: rgba(26, 24, 37, 0.08);
 
+  /* Gralt v3 — dark green + yellow brand (new home direction) */
+  --color-gralt-green: #11241B;         /* deep forest green, hero background */
+  --color-gralt-green-soft: #1A3024;    /* slightly lighter inner panels */
+  --color-gralt-green-deep: #0B1B12;    /* even darker, footer / final CTA */
+  --color-gralt-cream: #FBF6E7;         /* warm card surface on dark green */
+  --color-gralt-cream-soft: #F5EFDB;    /* slightly darker cream variant */
+  --color-gralt-yellow: #F5D547;        /* primary brand accent */
+  --color-gralt-yellow-deep: #E0BB1F;   /* darker variant for hover */
+  --color-gralt-yellow-soft: rgba(245, 213, 71, 0.15);
+  --color-gralt-text-on-green: #F7F3E3; /* warm off-white on dark green */
+  --color-gralt-text-on-cream: #1A1F1A; /* dark text on cream cards */
+  --color-gralt-text-muted: rgba(247, 243, 227, 0.7); /* secondary text on green */
+
   /* Fonts */
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 

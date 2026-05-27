@@ -15,14 +15,22 @@ const sections = [
   { name: 'Analytics', slug: 'analyse-pilotage', color: '#F472B6' },
 ]
 
-// ─── Wordmark (Gralt v3, used on home) — placeholder text, logo asset à venir ─
+// ─── Wordmark with crown (Gralt v3, used on home) ──────────────────────────
 function GraltWordmarkYellow() {
   return (
-    <span
-      className="text-2xl font-extrabold tracking-tight"
-      style={{ color: '#F5D547', letterSpacing: '-0.02em' }}
-    >
-      GRÄLT
+    <span className="inline-flex flex-col items-center leading-none">
+      <svg width="28" height="14" viewBox="0 0 28 14" fill="#F5D547" aria-hidden className="mb-0.5">
+        <circle cx="3" cy="3" r="2" />
+        <circle cx="14" cy="2" r="2" />
+        <circle cx="25" cy="3" r="2" />
+        <path d="M2 5 L4 11 L8 8 L14 12 L20 8 L24 11 L26 5 L22 9 L17 5 L14 8 L11 5 L6 9 Z" />
+      </svg>
+      <span
+        className="text-xl font-extrabold tracking-tight"
+        style={{ color: '#F5D547', letterSpacing: '-0.02em' }}
+      >
+        GRÄLT
+      </span>
     </span>
   )
 }
@@ -283,14 +291,7 @@ function DefaultHeader() {
 }
 
 // ─── Path-aware wrapper ─────────────────────────────────────────────────────
-// On the home, the mockup image already contains its own header, so we don't
-// render a global one here. Other pages keep the existing dark navy header.
 export default function Header() {
   const pathname = usePathname()
-  if (pathname === '/') return null
-  return <DefaultHeader />
+  return pathname === '/' ? <HomeHeader /> : <DefaultHeader />
 }
-
-// Kept exported for future use if we ever need to render the home header
-// separately from the mockup image.
-export { HomeHeader }

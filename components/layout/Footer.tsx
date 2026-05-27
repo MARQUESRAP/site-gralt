@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 const sections = [
   { name: 'Prospection & Vente', slug: 'prospection-vente' },
@@ -11,6 +14,13 @@ const sections = [
 ]
 
 export default function Footer() {
+  const pathname = usePathname()
+  // The home page renders its own footer matching the green/yellow design.
+  if (pathname === '/') return null
+  return <DefaultFooter />
+}
+
+function DefaultFooter() {
   return (
     <footer className="border-t border-dark-border bg-dark-bg">
       <div className="mx-auto max-w-7xl px-6 py-16">

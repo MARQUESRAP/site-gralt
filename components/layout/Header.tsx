@@ -283,8 +283,14 @@ function DefaultHeader() {
 }
 
 // ─── Path-aware wrapper ─────────────────────────────────────────────────────
+// On the home, the mockup image already contains its own header, so we don't
+// render a global one here. Other pages keep the existing dark navy header.
 export default function Header() {
   const pathname = usePathname()
-  const isHome = pathname === '/'
-  return isHome ? <HomeHeader /> : <DefaultHeader />
+  if (pathname === '/') return null
+  return <DefaultHeader />
 }
+
+// Kept exported for future use if we ever need to render the home header
+// separately from the mockup image.
+export { HomeHeader }
